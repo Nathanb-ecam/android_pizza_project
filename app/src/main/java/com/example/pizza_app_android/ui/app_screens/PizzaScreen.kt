@@ -29,6 +29,7 @@ fun PizzaScreen(
 ){
     val uiState by appViewModel.uiState.collectAsState()
     appViewModel.getPizzas()
+    //appViewModel.update()
     Text(text="Nos pizzas")
     PizzaList(uiState.pizzas,navController = navController)
 }
