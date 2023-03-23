@@ -3,6 +3,7 @@ package com.example.pizza_app_android
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pizza_app_android.models.Drink
 import com.example.pizza_app_android.models.Formula
 import com.example.pizza_app_android.models.Order
 import com.example.pizza_app_android.models.Pizza
@@ -17,8 +18,9 @@ data class OrderUiState(
 
 class OrderViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(UiState(
-        listOf<Pizza>(Pizza()),
         listOf<Formula>(Formula()),
+        listOf<Drink>(),
+        listOf<Pizza>(),
     ));
     val uiState : StateFlow<UiState> = _uiState.asStateFlow();
 
@@ -33,7 +35,7 @@ class OrderViewModel : ViewModel() {
             val latestPizzas = PizzaApi.retrofitService.getPizzas()
             val currentState = _uiState.value;
             try{
-                _uiState.value = currentState.copy(pizzas = latestPizzas["pizzas"]!!);
+                _uiState.value = currentState.copy(pizzas = latestPizzas["pizzas"]!! as List<Pizza>);
             }
             catch (e:java.lang.Exception){
 

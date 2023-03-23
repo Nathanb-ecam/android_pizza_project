@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
                 val orderViewModel : OrderViewModel = viewModel()
+                val appViewModel : RestaurantViewModel = viewModel()
                 Scaffold(
                     bottomBar = {
                         BottomNavigationBar(
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
                         TopNavigationBar()
                     }
                 ){
-                    Navigation(navController = navController,orderViewModel = orderViewModel )
+                    Navigation(navController = navController,orderViewModel = orderViewModel,appViewModel = appViewModel )
                 }
             }
         }
@@ -75,6 +76,7 @@ fun DefaultPreview() {
     Pizza_app_androidTheme {
         val navController = rememberNavController()
         val orderViewModel : OrderViewModel = viewModel()
-        Navigation(navController = navController,orderViewModel = orderViewModel)
+        val appViewModel : RestaurantViewModel = viewModel()
+        Navigation(navController = navController,orderViewModel = orderViewModel,appViewModel = appViewModel)
     }
 }

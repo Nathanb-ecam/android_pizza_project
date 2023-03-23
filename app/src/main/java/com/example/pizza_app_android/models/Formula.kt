@@ -1,8 +1,8 @@
 package com.example.pizza_app_android.models
 
-//import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializable
 
-//@Serializable
+@Serializable
 data class Formula(
     val name: String="Loading formulas",
     val price : Float=0f,

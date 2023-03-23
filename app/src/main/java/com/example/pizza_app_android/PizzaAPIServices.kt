@@ -1,5 +1,6 @@
 package com.example.pizza_app_android
 
+import com.example.pizza_app_android.models.Drink
 import com.example.pizza_app_android.models.Formula
 import com.example.pizza_app_android.models.Pizza
 import retrofit2.Retrofit
@@ -35,6 +36,9 @@ interface PizzaApiServices  {
 
     @GET("formulas")
     suspend fun getFormulas():MutableMap<String,List<Formula>>
+
+    @GET("drinks")
+    suspend fun getDrinks():MutableMap<String,List<Drink>>
 
 
 }

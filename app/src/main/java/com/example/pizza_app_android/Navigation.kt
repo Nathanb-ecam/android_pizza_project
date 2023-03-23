@@ -2,8 +2,11 @@ package com.example.pizza_app_android
 
 
 import PizzaScreen
+import android.util.Log
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -18,10 +21,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.example.pizza_app_android.models.BottomNavItem
+import com.example.pizza_app_android.models.Formula
 import com.example.pizza_app_android.ui.app_screens.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.decodeFromString
 
 @Composable
-fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel){
+fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel,appViewModel: RestaurantViewModel){
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
         composable(route=Screen.HomeScreen.route){
             HomeScreen(navController = navController)
@@ -33,15 +39,17 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
             DetailScreen()
         }*/
         composable(
-            route=Screen.DetailScreen.route+ "/{desc}",
+            route=Screen.DetailScreen.route+ "/{item}",
             arguments = listOf(
-                navArgument("desc"){
+                navArgument("item"){
                     type = NavType.StringType
                     defaultValue = "Not found"
                 }
             )
-        ){entry->
-            DetailScreen(description = entry.arguments?.getString("desc")!!)
+        ){
+            var stringItem = it.arguments?.getString("item")!!;
+            val formula = Json.decodeFromString<Formula>(stringItem);
+            DetailScreen(formula,appViewModel= appViewModel);
         }
         composable(route=Screen.DrinkScreen.route){
             DrinkScreen(navController = navController)
@@ -66,8 +74,9 @@ fun TopNavigationBar(){
     ) {
         Text(
             text = "Pizza hut",
-            fontSize = 22.sp,
+            fontSize = 32.sp,
             textAlign = TextAlign.Center,
+            modifier= Modifier.fillMaxWidth(),
             color = Color.White,
 
         )

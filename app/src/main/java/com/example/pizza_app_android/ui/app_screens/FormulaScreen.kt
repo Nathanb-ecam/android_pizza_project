@@ -1,6 +1,7 @@
 package com.example.pizza_app_android.ui.app_screens
 
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +23,8 @@ import com.example.pizza_app_android.OrderViewModel
 import com.example.pizza_app_android.RestaurantViewModel
 import com.example.pizza_app_android.Screen
 import com.example.pizza_app_android.models.Formula
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
 
 @Composable
 fun FormulaScreen(
@@ -38,7 +41,8 @@ fun FormulaScreen(
     }*/
     val uiState by appViewModel.uiState.collectAsState()
     appViewModel.getFormulas()
-
+    appViewModel.getDrinks()
+    appViewModel.getPizzas()
 
     Column{
         Text(text="Our formula's",fontSize = 32.sp)
@@ -56,8 +60,8 @@ fun FormulaList(formulas : List<Formula>, navController: NavController){
             .height(600.dp),
         contentPadding = PaddingValues(16.dp)
     ){
-        items(formulas) { menu ->
-            FormulaCard(menu,navController= navController)
+        items(formulas) { formula ->
+            FormulaCard(formula,navController= navController)
         }
     }
 
@@ -65,9 +69,12 @@ fun FormulaList(formulas : List<Formula>, navController: NavController){
 
 @Composable
 fun FormulaCard(formula: Formula, modifier: Modifier = Modifier, navController: NavController){
+    val formulaJson = Json.encodeToString(formula);
+    //Log.i("JSON",formulaJson.toString())
+
     Card(modifier = Modifier
         .padding(8.dp)
-        .clickable(onClick = { navController.navigate(Screen.DetailScreen.withArgs(formula.desc)) }), elevation = 4.dp, backgroundColor = Color.LightGray){
+        .clickable(onClick = { navController.navigate(Screen.DetailScreen.withArgs(formulaJson)) }), elevation = 4.dp, backgroundColor = Color.LightGray){
         Box(modifier = Modifier.fillMaxWidth()) {
             Row(modifier = Modifier
                 .fillMaxSize()

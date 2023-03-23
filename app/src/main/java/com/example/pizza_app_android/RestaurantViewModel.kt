@@ -1,10 +1,9 @@
 package com.example.pizza_app_android
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pizza_app_android.models.Drink
 import com.example.pizza_app_android.models.Formula
 import com.example.pizza_app_android.models.Pizza
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,14 +15,16 @@ import retrofit2.Callback
 import retrofit2.Response
 
 data class UiState(
+    val formulas :List<Formula>,
+    val drinks :List<Drink>,
     val pizzas: List<Pizza>,
-    val formulas :List<Formula>
 )
 
 class RestaurantViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(UiState(
-                listOf<Pizza>(),
                 listOf<Formula>(Formula()),
+                listOf<Drink>(),
+                listOf<Pizza>(),
     ));
 
     val uiState : StateFlow<UiState> = _uiState.asStateFlow();
@@ -72,6 +73,22 @@ class RestaurantViewModel : ViewModel() {
             val currentState = _uiState.value;
             try{
                 _uiState.value = currentState.copy(formulas = latestFormulas["formulas"]!!);
+            }
+            catch (e:java.lang.Exception){
+
+            }
+
+            //Log.d("Result",stringResult)
+        }
+    }
+
+
+    fun getDrinks(){
+        viewModelScope.launch {
+            val latestDrinks = PizzaApi.retrofitService.getDrinks()
+            val currentState = _uiState.value;
+            try{
+                _uiState.value = currentState.copy(drinks = latestDrinks["drinks"]!!);
             }
             catch (e:java.lang.Exception){
 
