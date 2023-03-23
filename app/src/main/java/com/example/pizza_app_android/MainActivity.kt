@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.pizza_app_android.models.BottomNavItem
 import com.example.pizza_app_android.ui.theme.Pizza_app_androidTheme
@@ -18,13 +19,14 @@ class MainActivity : ComponentActivity() {
             Pizza_app_androidTheme {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
+                val orderViewModel : OrderViewModel = viewModel()
                 Scaffold(
                     bottomBar = {
                         BottomNavigationBar(
                             items = listOf(
                                 BottomNavItem(
                                     name="Menu",
-                                    route = Screen.MenuScreen.route,
+                                    route = Screen.FormulaScreen.route,
                                     icon_path = R.drawable.menu_icon
                                 ),
                                 BottomNavItem(
@@ -37,6 +39,11 @@ class MainActivity : ComponentActivity() {
                                     route = Screen.DrinkScreen.route,
                                     icon_path = R.drawable.drink_icon
                                 ),
+                                BottomNavItem(
+                                    name="Login",
+                                    route = Screen.LoginScreen.route,
+                                    icon_path = R.drawable.login_icon
+                                ),
                             ),
                             navController = navController,
                             onItemClicked ={
@@ -48,7 +55,7 @@ class MainActivity : ComponentActivity() {
                         TopNavigationBar()
                     }
                 ){
-                    Navigation(navController = navController)
+                    Navigation(navController = navController,orderViewModel = orderViewModel )
                 }
             }
         }
@@ -67,6 +74,7 @@ class MainActivity : ComponentActivity() {
 fun DefaultPreview() {
     Pizza_app_androidTheme {
         val navController = rememberNavController()
-        Navigation(navController = navController)
+        val orderViewModel : OrderViewModel = viewModel()
+        Navigation(navController = navController,orderViewModel = orderViewModel)
     }
 }

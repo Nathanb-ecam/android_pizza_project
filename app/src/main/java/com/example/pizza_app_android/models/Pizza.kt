@@ -1,11 +1,11 @@
 package com.example.pizza_app_android.models
 
-import kotlinx.serialization.Serializable
+//import kotlinx.serialization.Serializable
 
-@Serializable
+//@Serializable
 data class Pizza(
-    val name: String,
-    val price : Float,
+    val name: String="",
+    val price : Float=0f,
 ) {
 
 }

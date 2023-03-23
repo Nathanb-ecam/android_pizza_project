@@ -1,17 +1,16 @@
 import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -25,19 +24,36 @@ import com.example.pizza_app_android.Screen
 @Composable
 fun PizzaScreen(
     navController: NavController,
-    appViewModel: RestaurantViewModel = viewModel()
+    appViewModel: RestaurantViewModel = viewModel(),
+
 ){
     val uiState by appViewModel.uiState.collectAsState()
-    appViewModel.getPizzas()
+    //appViewModel.addPizza()
     //appViewModel.update()
-    Text(text="Nos pizzas")
-    PizzaList(uiState.pizzas,navController = navController)
+    appViewModel.getPizzas()
+    Column {
+        Text(text="Nos pizzas",fontSize=32.sp)
+        PizzaList(uiState.pizzas,navController = navController)
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            border = BorderStroke(1.dp, Color.Red),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red),
+            onClick ={appViewModel.addPizza(Pizza("Mozzarella",12f))},
+            ){
+            Text(text="Add a pizza",fontSize = 24.sp, color = Color.Red)
+        }
+    }
+
+
 }
 
 @Composable
 fun PizzaList(pizzas:List<Pizza>, navController: NavController){
 
-    LazyColumn{
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth().height(600.dp),
+        contentPadding = PaddingValues(16.dp)
+    ){
         items(pizzas) { pizza ->
             PizzaCard(pizza, navController)
         }
@@ -46,16 +62,24 @@ fun PizzaList(pizzas:List<Pizza>, navController: NavController){
 
 @Composable
 fun PizzaCard(pizza: Pizza, navController: NavController, modifier: Modifier = Modifier){
-    Card(modifier = modifier.padding(0.dp), elevation = 0.dp){
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
-            ClickableText(
+    Card(modifier = modifier.padding(8.dp), elevation = 4.dp, backgroundColor = Color.LightGray){
+        Row(modifier = Modifier.fillMaxSize().padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(
                 text = AnnotatedString(pizza.name) ,
                 style = TextStyle(fontSize = 20.sp),
                 //navController.navigate(Screen.DetailScreen.withArgs(pizza.name))
-                onClick = {navController.navigate(Screen.DetailScreen.route)},// need to navigate to content of the quote
-                modifier = Modifier.padding(8.dp)
+
             )
-            Text(text=pizza.price.toString())
+            Text(text=pizza.price.toString(),fontSize =18.sp)
         }
     }
+}
+
+
+@Composable
+fun AddPizza(
+    pizza: Pizza,
+    appViewModel: RestaurantViewModel = viewModel()
+){
+    appViewModel.addPizza(pizza)
 }

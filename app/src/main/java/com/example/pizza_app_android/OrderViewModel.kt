@@ -3,6 +3,7 @@ package com.example.pizza_app_android
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pizza_app_android.models.Formula
 import com.example.pizza_app_android.models.Order
 import com.example.pizza_app_android.models.Pizza
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,10 @@ data class OrderUiState(
 )
 
 class OrderViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(UiState(listOf<Pizza>(Pizza("En attente",0.0f))));
+    private val _uiState = MutableStateFlow(UiState(
+        listOf<Pizza>(Pizza()),
+        listOf<Formula>(Formula()),
+    ));
     val uiState : StateFlow<UiState> = _uiState.asStateFlow();
 
     fun update(){
