@@ -1,16 +1,15 @@
 package com.example.pizza_app_android.ui.app_screens
 
 
+import android.content.ClipData
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -22,12 +21,13 @@ import androidx.navigation.NavController
 import com.example.pizza_app_android.OrderViewModel
 import com.example.pizza_app_android.RestaurantViewModel
 import com.example.pizza_app_android.Screen
-import com.example.pizza_app_android.models.Formula
+import com.example.pizza_app_android.models.Product
+
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 
 @Composable
-fun FormulaScreen(
+fun MenuScreen(
     navController: NavController,
     appViewModel: RestaurantViewModel = viewModel(),
     orderViewModel : OrderViewModel = viewModel()
@@ -35,41 +35,93 @@ fun FormulaScreen(
     //val uiState by appViewModel.uiState.collectAsState()
     //appViewModel.getPizzas()
     //appViewModel.update()
-    //Text(text="Pizza Hut")
+    //Text(text="Item Hut")
 /*    TextButton(onClick = { navController.navigate(Screen.PizzaScreen.route) }) {
         Text(text = "Text Button")
     }*/
     val uiState by appViewModel.uiState.collectAsState()
-    appViewModel.getFormulas()
     appViewModel.getDrinks()
     appViewModel.getPizzas()
 
     Column{
-        Text(text="Our formula's",fontSize = 32.sp)
-        FormulaList(uiState.formulas,navController = navController)
+        Text(text="Create your menu",fontSize = 32.sp)
+        Column(modifier=Modifier.fillMaxSize()){
+            ProductsList(productType = "Drink",uiState.drinks)
+            ProductsList(productType = "Pizza",uiState.pizzas)
+        }
+
+
+        //DrinkList(uiState.drinks,navController = navController)
+
     }
 
 
 
 }
 @Composable
-fun FormulaList(formulas : List<Formula>, navController: NavController){
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(600.dp),
-        contentPadding = PaddingValues(16.dp)
-    ){
-        items(formulas) { formula ->
-            FormulaCard(formula,navController= navController)
+fun ProductsList(productType :String,products : List<Product>, orderViewModel: OrderViewModel = viewModel()){
+    val suggestions = products
+    var selectedItem:Product=Product() ;
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = productType)
+        LazyRow(
+            modifier = Modifier.height(150.dp),//height(600.dp)
+            contentPadding = PaddingValues(16.dp)
+        ){
+            items(suggestions) { suggestion ->
+                Card(modifier = Modifier.padding(8.dp).height(100.dp).width(100.dp).clickable { selectedItem = suggestion;Log.i("Selected product",suggestion.name.toString()) },
+                    elevation = 4.dp,
+                    backgroundColor = Color.LightGray){
+                    Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+                        Text(
+                            text = AnnotatedString(suggestion.name) ,
+                            style = TextStyle(fontSize = 20.sp),
+                            //navController.navigate(Screen.DetailScreen.withArgs(pizza.name))
+
+                        )
+                        Text(text=suggestion.price.toString(),fontSize =18.sp)
+                    }
+                }
+            }
         }
     }
-
 }
 
 @Composable
-fun FormulaCard(formula: Formula, modifier: Modifier = Modifier, navController: NavController){
-    val formulaJson = Json.encodeToString(formula);
+fun ProductCard(product: Product,modifier: Modifier= Modifier){
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@Composable
+fun MenuCard(product:Product, modifier: Modifier = Modifier, navController: NavController){
+    val formulaJson = Json.encodeToString(product);
     //Log.i("JSON",formulaJson.toString())
 
     Card(modifier = Modifier
@@ -80,11 +132,11 @@ fun FormulaCard(formula: Formula, modifier: Modifier = Modifier, navController: 
                 .fillMaxSize()
                 .padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = AnnotatedString(formula.name) ,
+                    text = AnnotatedString("Menu") ,
                     style = TextStyle(fontSize = 20.sp),
                     //navController.navigate(Screen.DetailScreen.withArgs(pizza.name))
                 )
-                Text(text=formula.price.toString(),fontSize =18.sp)
+                Text(text="something about the menu",fontSize =18.sp)
             }
 
 /*            Column(modifier = Modifier

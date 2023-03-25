@@ -27,11 +27,11 @@ class MainActivity : ComponentActivity() {
                             items = listOf(
                                 BottomNavItem(
                                     name="Menu",
-                                    route = Screen.FormulaScreen.route,
+                                    route = Screen.MenuScreen.route,
                                     icon_path = R.drawable.menu_icon
                                 ),
                                 BottomNavItem(
-                                    name="Pizza's",
+                                    name="Item's",
                                     route = Screen.PizzaScreen.route,
                                     icon_path = R.drawable.pizza_icon
                                 ),

@@ -2,11 +2,9 @@ package com.example.pizza_app_android
 
 
 import PizzaScreen
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -21,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.example.pizza_app_android.models.BottomNavItem
-import com.example.pizza_app_android.models.Formula
+import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.ui.app_screens.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
@@ -48,8 +46,8 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
             )
         ){
             var stringItem = it.arguments?.getString("item")!!;
-            val formula = Json.decodeFromString<Formula>(stringItem);
-            DetailScreen(formula,appViewModel= appViewModel);
+            val product = Json.decodeFromString<Product>(stringItem);
+            DetailScreen(product,appViewModel= appViewModel);
         }
         composable(route=Screen.DrinkScreen.route){
             DrinkScreen(navController = navController)
@@ -57,8 +55,8 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
         composable(route=Screen.SauceScreen.route){
             SauceScreen(navController = navController)
         }
-        composable(route=Screen.FormulaScreen.route){
-            FormulaScreen(navController = navController,orderViewModel= orderViewModel)
+        composable(route=Screen.MenuScreen.route){
+            MenuScreen(navController = navController,orderViewModel= orderViewModel)
         }
         composable(route=Screen.LoginScreen.route){
             LoginScreen(navController = navController)
@@ -73,7 +71,7 @@ fun TopNavigationBar(){
         backgroundColor = Color.Red
     ) {
         Text(
-            text = "Pizza hut",
+            text = "Item hut",
             fontSize = 32.sp,
             textAlign = TextAlign.Center,
             modifier= Modifier.fillMaxWidth(),

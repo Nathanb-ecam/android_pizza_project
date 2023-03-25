@@ -1,13 +1,13 @@
 package com.example.pizza_app_android
 
-import com.example.pizza_app_android.models.Pizza
+import com.example.pizza_app_android.models.Product
 
 class Datasource {
-    fun fetchPizzas():List<Pizza>{
-        return listOf<Pizza>(
-            Pizza("margarita",12.0f),
-            Pizza("hawai",11.0f),
-            Pizza("jambon",9f)
+    fun fetchPizzas():List<Product>{
+        return listOf<Product>(
+            Product("margarita",12.0f),
+            Product("hawai",11.0f),
+            Product("jambon",9f)
         );
     }
 }

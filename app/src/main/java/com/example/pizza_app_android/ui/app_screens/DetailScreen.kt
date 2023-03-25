@@ -1,8 +1,6 @@
 package com.example.pizza_app_android.ui.app_screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
@@ -13,20 +11,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pizza_app_android.RestaurantViewModel
-import com.example.pizza_app_android.Screen
-import com.example.pizza_app_android.models.Drink
-import com.example.pizza_app_android.models.Formula
-import com.example.pizza_app_android.models.Pizza
+import com.example.pizza_app_android.models.Product
+
 
 @Composable
 fun DetailScreen(
-    formula: Formula,
+    product: Product,
     appViewModel: RestaurantViewModel = viewModel()
 ){
     val uiState by appViewModel.uiState.collectAsState()
@@ -37,8 +31,8 @@ fun DetailScreen(
         modifier = Modifier.fillMaxSize()
     ){
         Column {
-            Text(text=formula.name, fontSize = 32.sp)
-            PizzaSection(formula = formula,uiState.pizzas)
+            Text(text="menu details", fontSize = 32.sp)
+            PizzaSection(product = product,uiState.pizzas)
             //DrinkSection(formula = formula,uiState.drinks)
         }
     }
@@ -46,22 +40,22 @@ fun DetailScreen(
 
 
 @Composable
-fun PizzaSection(formula: Formula,pizzas: List<Pizza>){
-    Log.i("Details",formula.name)
-    for(i in 1..formula.pizza_quantity ){
+fun PizzaSection(product: Product, pizzas: List<Product>){
+    //Log.i("Details",menu.name)
+/*    for(i in 1..menu.pizza_quantity ){
         Row(modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)) {
             PizzaList(pizzas)
         }
-    }
+    }*/
 
 }
 
 @Composable
-fun PizzaList(pizzas: List<Pizza>){
+fun PizzaList(pizzas: List<Product>){
     Column{
-        Text(text="Pizza")
+        Text(text="Item")
         LazyRow{
             items(pizzas){comp->
                 PizzaCard(comp)
@@ -74,7 +68,7 @@ fun PizzaList(pizzas: List<Pizza>){
 
 
 @Composable
-fun PizzaCard(pizza: Pizza){
+fun PizzaCard(pizza: Product){
     Card(modifier = Modifier.padding(8.dp), elevation = 4.dp, backgroundColor = Color.LightGray){
         Box(modifier = Modifier
             .height(150.dp)

@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.pizza_app_android.models.Pizza
 import com.example.pizza_app_android.RestaurantViewModel
 import com.example.pizza_app_android.Screen
+import com.example.pizza_app_android.models.Product
 
 @Composable
 fun PizzaScreen(
@@ -38,7 +38,7 @@ fun PizzaScreen(
             modifier = Modifier.fillMaxWidth(),
             border = BorderStroke(1.dp, Color.Red),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red),
-            onClick ={appViewModel.addPizza(Pizza("Mozzarella",12f))},
+            onClick ={appViewModel.addPizza(Product("Mozzarella",12f))},
             ){
             Text(text="Add a pizza",fontSize = 24.sp, color = Color.Red)
         }
@@ -48,7 +48,7 @@ fun PizzaScreen(
 }
 
 @Composable
-fun PizzaList(pizzas:List<Pizza>, navController: NavController){
+fun PizzaList(pizzas:List<Product>, navController: NavController){
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth().height(600.dp),
@@ -61,7 +61,7 @@ fun PizzaList(pizzas:List<Pizza>, navController: NavController){
 }
 
 @Composable
-fun PizzaCard(pizza: Pizza, navController: NavController, modifier: Modifier = Modifier){
+fun PizzaCard(pizza: Product, navController: NavController, modifier: Modifier = Modifier){
     Card(modifier = modifier.padding(8.dp), elevation = 4.dp, backgroundColor = Color.LightGray){
         Row(modifier = Modifier.fillMaxSize().padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
@@ -78,7 +78,7 @@ fun PizzaCard(pizza: Pizza, navController: NavController, modifier: Modifier = M
 
 @Composable
 fun AddPizza(
-    pizza: Pizza,
+    pizza: Product,
     appViewModel: RestaurantViewModel = viewModel()
 ){
     appViewModel.addPizza(pizza)

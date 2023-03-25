@@ -2,7 +2,7 @@ package com.example.pizza_app_android
 
 sealed class Screen(val route:String) {
     object HomeScreen : Screen("home")
-    object FormulaScreen : Screen("formula")
+    object MenuScreen : Screen("menu")
     object DrinkScreen : Screen("drink")
     object SauceScreen : Screen("sauce")
     object PizzaScreen : Screen("pizza")

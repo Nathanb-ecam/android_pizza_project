@@ -1,8 +1,7 @@
 package com.example.pizza_app_android
 
-import com.example.pizza_app_android.models.Drink
-import com.example.pizza_app_android.models.Formula
-import com.example.pizza_app_android.models.Pizza
+
+import com.example.pizza_app_android.models.Product
 import retrofit2.Retrofit
 import retrofit2.http.GET
 /*import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -25,20 +24,20 @@ private val retrofit = Retrofit.Builder()
 
 interface PizzaApiServices  {
     @GET("pizzas")
-    suspend fun getPizzas():MutableMap<String,List<Pizza>>
+    suspend fun getPizzas():MutableMap<String,List<Product>>
 
 
     @GET("pizza/{pizza_id}")
-    suspend fun getPizzaById(@Path("pizza_id") searchById:String):Pizza
+    suspend fun getPizzaById(@Path("pizza_id") searchById:String):Product
 
     @POST("pizza")
-    fun addPizza(@Body pizza: Pizza?): Call<Pizza>
+    fun addPizza(@Body pizza: Product?): Call<Product>
 
-    @GET("formulas")
-    suspend fun getFormulas():MutableMap<String,List<Formula>>
+    @GET("menus")
+    suspend fun getMenus():MutableMap<String,List<Product>>
 
     @GET("drinks")
-    suspend fun getDrinks():MutableMap<String,List<Drink>>
+    suspend fun getDrinks():MutableMap<String,List<Product>>
 
 
 }
