@@ -10,6 +10,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.pizza_app_android.models.BottomNavItem
 import com.example.pizza_app_android.ui.theme.Pizza_app_androidTheme
+import com.example.pizza_app_android.viewmodels.OrderViewModel
+import com.example.pizza_app_android.viewmodels.RestaurantViewModel
+
 
 
 class MainActivity : ComponentActivity() {

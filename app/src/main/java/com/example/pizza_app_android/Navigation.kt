@@ -21,11 +21,13 @@ import androidx.navigation.navArgument
 import com.example.pizza_app_android.models.BottomNavItem
 import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.ui.app_screens.*
+import com.example.pizza_app_android.viewmodels.OrderViewModel
+import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
 
 @Composable
-fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel,appViewModel: RestaurantViewModel){
+fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel, appViewModel: RestaurantViewModel){
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
         composable(route=Screen.HomeScreen.route){
             HomeScreen(navController = navController)
@@ -71,7 +73,7 @@ fun TopNavigationBar(){
         backgroundColor = Color.Red
     ) {
         Text(
-            text = "Item hut",
+            text = "Pizza hut",
             fontSize = 32.sp,
             textAlign = TextAlign.Center,
             modifier= Modifier.fillMaxWidth(),

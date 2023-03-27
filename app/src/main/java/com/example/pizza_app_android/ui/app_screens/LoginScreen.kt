@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.pizza_app_android.RestaurantViewModel
+import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 
 @Composable
 fun LoginScreen(navController: NavController){

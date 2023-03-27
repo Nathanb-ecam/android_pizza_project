@@ -39,6 +39,12 @@ interface PizzaApiServices  {
     @GET("drinks")
     suspend fun getDrinks():MutableMap<String,List<Product>>
 
+    @GET("sauces")
+    suspend fun getSauces():MutableMap<String,List<Product>>
+
+    @GET("chickens")
+    suspend fun getChickens():MutableMap<String,List<Product>>
+
 
 }
 

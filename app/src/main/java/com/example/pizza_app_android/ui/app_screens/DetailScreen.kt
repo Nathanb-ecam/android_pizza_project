@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pizza_app_android.RestaurantViewModel
+import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 import com.example.pizza_app_android.models.Product
 
 
