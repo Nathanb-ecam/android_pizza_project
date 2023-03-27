@@ -5,10 +5,13 @@ import android.content.ClipData
 import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.*
@@ -47,26 +50,28 @@ fun MenuScreen(
     val uiState by appViewModel.uiState.collectAsState()
     appViewModel.getDrinks()
     appViewModel.getPizzas()
-
     Column{
         Text(text="Create your menu",fontSize = 32.sp)
-        Column(modifier=Modifier.fillMaxSize()){
-            orderViewModel.showOrderContent()
+        Column(modifier= Modifier
+            .height(550.dp)
+            .verticalScroll(rememberScrollState())){
             ProductsList(productType = ProductType.Drink,uiState.drinks,orderViewModel)
             ProductsList(productType = ProductType.Pizza,uiState.pizzas,orderViewModel)
             ProductsList(productType = ProductType.Chicken,uiState.chickens,orderViewModel)
             ProductsList(productType = ProductType.Sauce,uiState.sauces,orderViewModel)
-            Button(
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                onClick = {orderViewModel.addMenuToOrder();orderViewModel.showOrderContent();}){
-                Text(text="Ajouter le menu à la commande")
-            }
         }
+        Button(
+            modifier = Modifier.align(alignment = Alignment.CenterHorizontally).padding(8.dp),
+            onClick = {orderViewModel.addMenuToOrder();orderViewModel.showOrderContent();}){
+            Text(text="Ajouter le menu à la commande")
+        }
+    }
+
 
 
         //DrinkList(uiState.drinks,navController = navController)
 
-    }
+
 
 
 
@@ -80,10 +85,16 @@ fun ProductsList(productType :ProductType,suggestions : List<Product>, orderView
             contentPadding = PaddingValues(16.dp)
         ){
             items(suggestions) { suggestion ->
-                Card(modifier = Modifier.padding(8.dp).height(100.dp).width(100.dp).clickable { orderViewModel.applySelection(productType,suggestion); },
+                Card(modifier = Modifier
+                    .padding(8.dp)
+                    .height(100.dp)
+                    .width(100.dp)
+                    .clickable { orderViewModel.applySelection(productType, suggestion); },
                     elevation = 4.dp,
                     backgroundColor = Color.LightGray){
-                    Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+                    Column(modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp)) {
                         Text(
                             text = AnnotatedString(suggestion.name) ,
                             style = TextStyle(fontSize = 20.sp),
@@ -96,11 +107,6 @@ fun ProductsList(productType :ProductType,suggestions : List<Product>, orderView
             }
         }
     }
-
-}
-
-@Composable
-fun ProductCard(product: Product,modifier: Modifier= Modifier){
 
 }
 

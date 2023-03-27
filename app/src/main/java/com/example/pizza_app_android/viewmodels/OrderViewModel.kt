@@ -29,9 +29,9 @@ class OrderViewModel : ViewModel() {
     val uiState : StateFlow<OrderUiState> = _uiState.asStateFlow();
 
     fun addMenuToOrder(){
-        if (!selection.isEmpty()){
+        if (selection.isNotEmpty()){
             Log.i("Selection","Current selection"+selection.toString())
-            orderMenus.add(Menu("ketchup",selection[ProductType.Drink.name]!!,selection[ProductType.Pizza.name]!!,"chicken wings"));
+            orderMenus.add(Menu("",selection[ProductType.Drink.name]!!,selection[ProductType.Pizza.name]!!,""));
         }
 
     }

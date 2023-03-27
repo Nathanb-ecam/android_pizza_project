@@ -42,12 +42,7 @@ class MainActivity : ComponentActivity() {
                                     name="Drinks",
                                     route = Screen.DrinkScreen.route,
                                     icon_path = R.drawable.drink_icon
-                                ),
-                                BottomNavItem(
-                                    name="Login",
-                                    route = Screen.LoginScreen.route,
-                                    icon_path = R.drawable.login_icon
-                                ),
+                                )
                             ),
                             navController = navController,
                             onItemClicked ={
