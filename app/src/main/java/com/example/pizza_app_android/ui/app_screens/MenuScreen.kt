@@ -50,6 +50,8 @@ fun MenuScreen(
     val uiState by appViewModel.uiState.collectAsState()
     appViewModel.getDrinks()
     appViewModel.getPizzas()
+    appViewModel.getChickens()
+    appViewModel.getSauces()
     Column{
         Text(text="Create your menu",fontSize = 32.sp)
         Column(modifier= Modifier
