@@ -1,6 +1,7 @@
 package com.example.pizza_app_android
 
 
+import com.example.pizza_app_android.models.Menu
 import com.example.pizza_app_android.models.Product
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -24,7 +25,7 @@ private val retrofit = Retrofit.Builder()
 
 interface PizzaApiServices  {
     @GET("pizzas")
-    suspend fun getPizzas():MutableMap<String,List<Product>>
+    suspend fun getPizzas():List<Product>
 
 
     @GET("pizza/{pizza_id}")
@@ -34,16 +35,16 @@ interface PizzaApiServices  {
     fun addPizza(@Body pizza: Product?): Call<Product>
 
     @GET("menus")
-    suspend fun getMenus():MutableMap<String,List<Product>>
+    suspend fun getMenus():List<Menu>
 
     @GET("drinks")
-    suspend fun getDrinks():MutableMap<String,List<Product>>
+    suspend fun getDrinks():List<Product>
 
     @GET("sauces")
-    suspend fun getSauces():MutableMap<String,List<Product>>
+    suspend fun getSauces():List<Product>
 
     @GET("chickens")
-    suspend fun getChickens():MutableMap<String,List<Product>>
+    suspend fun getChickens():List<Product>
 
 
 }
