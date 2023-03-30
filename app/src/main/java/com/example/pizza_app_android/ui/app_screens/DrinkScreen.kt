@@ -12,15 +12,15 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.pizza_app_android.ProductList
+import com.example.pizza_app_android.viewmodels.OrderViewModel
 import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 
 @Composable
-fun DrinkScreen(navController: NavController,appViewModel: RestaurantViewModel = viewModel()){
+fun DrinkScreen(navController: NavController, appViewModel: RestaurantViewModel = viewModel()){
     val uiState by appViewModel.uiState.collectAsState()
-    appViewModel.getDrinks()
     Column {
         Text(text="Nos boissons",fontSize=32.sp)
-        ProductList(uiState.drinks)
+        //ProductList(uiState.drinks)
 /*        Button(
             modifier = Modifier.fillMaxWidth(),
             border = BorderStroke(1.dp, Color.Red),

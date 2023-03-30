@@ -31,13 +31,13 @@ class OrderViewModel : ViewModel() {
     fun addMenuToOrder(){
         if (selection.isNotEmpty()){
             Log.i("Selection","Current selection"+selection.toString())
-            orderMenus.add(Menu("",selection[ProductType.Drink.name]!!,selection[ProductType.Pizza.name]!!,""));
+            orderMenus.add(Menu(0,"",0,1,1,0));
         }
 
     }
 
     fun applySelection(productType: ProductType,product: Product){
-        selection[productType.name]= product.name;
+        selection[productType.name]= product.Name;
         //Log.i("Map", selection.toString())
 
     }

@@ -22,7 +22,7 @@ import com.example.pizza_app_android.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController,userViewModel : UserViewModel = viewModel()){
+fun LoginScreen(navController: NavController,userViewModel : UserViewModel= viewModel()){
 
     // need to fetch all authorized users
 
@@ -44,7 +44,7 @@ fun LoginScreen(navController: NavController,userViewModel : UserViewModel = vie
             Button(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
                 onClick = {
-                    userViewModel.authentificate(User(username,password));
+                    //userViewModel.authentificate(User(username,password));
                     Log.i("API",uiState.loggedIn.toString())
                     if (uiState.loggedIn){
                         navController.navigate(Screen.HomeScreen.route)

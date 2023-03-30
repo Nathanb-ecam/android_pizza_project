@@ -23,12 +23,13 @@ import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.ui.app_screens.*
 import com.example.pizza_app_android.viewmodels.OrderViewModel
 import com.example.pizza_app_android.viewmodels.RestaurantViewModel
+import com.example.pizza_app_android.viewmodels.UserViewModel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
 
 @Composable
-fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel, appViewModel: RestaurantViewModel){
-    NavHost(navController = navController, startDestination = Screen.LoginScreen.route){
+fun Navigation(navController : NavHostController){
+    NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
         composable(route=Screen.HomeScreen.route){
             HomeScreen(navController = navController)
         }
@@ -49,7 +50,7 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
         ){
             var stringItem = it.arguments?.getString("item")!!;
             val product = Json.decodeFromString<Product>(stringItem);
-            DetailScreen(product,appViewModel= appViewModel);
+            DetailScreen(product);
         }
         composable(route=Screen.DrinkScreen.route){
             DrinkScreen(navController = navController)
@@ -58,7 +59,7 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
             SauceScreen(navController = navController)
         }
         composable(route=Screen.MenuScreen.route){
-            MenuScreen(navController = navController,orderViewModel= orderViewModel)
+            MenuScreen(navController = navController)
         }
         composable(route=Screen.LoginScreen.route){
             LoginScreen(navController = navController)

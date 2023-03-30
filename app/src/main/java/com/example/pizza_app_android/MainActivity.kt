@@ -12,7 +12,7 @@ import com.example.pizza_app_android.models.BottomNavItem
 import com.example.pizza_app_android.ui.theme.Pizza_app_androidTheme
 import com.example.pizza_app_android.viewmodels.OrderViewModel
 import com.example.pizza_app_android.viewmodels.RestaurantViewModel
-
+import com.example.pizza_app_android.viewmodels.UserViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -22,8 +22,9 @@ class MainActivity : ComponentActivity() {
             Pizza_app_androidTheme {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
-                val orderViewModel : OrderViewModel = viewModel()
+/*                val orderViewModel : OrderViewModel = viewModel()
                 val appViewModel : RestaurantViewModel = viewModel()
+                val userViewModel : UserViewModel = viewModel()*/
                 Scaffold(
                     bottomBar = {
                         BottomNavigationBar(
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
                         TopNavigationBar()
                     }
                 ){
-                    Navigation(navController = navController,orderViewModel = orderViewModel,appViewModel = appViewModel )
+                    Navigation(navController = navController)
                 }
             }
         }
@@ -75,6 +76,7 @@ fun DefaultPreview() {
         val navController = rememberNavController()
         val orderViewModel : OrderViewModel = viewModel()
         val appViewModel : RestaurantViewModel = viewModel()
-        Navigation(navController = navController,orderViewModel = orderViewModel,appViewModel = appViewModel)
+        val userViewModel : UserViewModel = viewModel()
+        Navigation(navController = navController)
     }
 }

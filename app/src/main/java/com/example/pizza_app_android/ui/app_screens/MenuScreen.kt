@@ -40,27 +40,22 @@ fun MenuScreen(
     appViewModel: RestaurantViewModel = viewModel(),
     orderViewModel : OrderViewModel = viewModel()
 ){
-    //val uiState by appViewModel.uiState.collectAsState()
-    //appViewModel.getPizzas()
-    //appViewModel.update()
-    //Text(text="Item Hut")
-/*    TextButton(onClick = { navController.navigate(Screen.PizzaScreen.route) }) {
-        Text(text = "Text Button")
-    }*/
     val uiState by appViewModel.uiState.collectAsState()
-    appViewModel.getDrinks()
+    appViewModel.getPizzas()
+
+/*    appViewModel.getDrinks()
     appViewModel.getPizzas()
     appViewModel.getChickens()
-    appViewModel.getSauces()
+    appViewModel.getSauces()*/
     Column{
         Text(text="Create your menu",fontSize = 32.sp)
         Column(modifier= Modifier
             .height(550.dp)
             .verticalScroll(rememberScrollState())){
-            ProductsList(productType = ProductType.Drink,uiState.drinks,orderViewModel)
-            ProductsList(productType = ProductType.Pizza,uiState.pizzas,orderViewModel)
-            ProductsList(productType = ProductType.Chicken,uiState.chickens,orderViewModel)
-            ProductsList(productType = ProductType.Sauce,uiState.sauces,orderViewModel)
+            MenuList(productType = ProductType.Drink,uiState.drinks,orderViewModel)
+            MenuList(productType = ProductType.Pizza,uiState.pizzas,orderViewModel)
+            MenuList(productType = ProductType.Chicken,uiState.chickens,orderViewModel)
+            MenuList(productType = ProductType.Sauce,uiState.sauces,orderViewModel)
         }
         Button(
             modifier = Modifier.align(alignment = Alignment.CenterHorizontally).padding(8.dp),
@@ -79,7 +74,7 @@ fun MenuScreen(
 
 }
 @Composable
-fun ProductsList(productType :ProductType,suggestions : List<Product>, orderViewModel: OrderViewModel){
+fun MenuList(productType :ProductType,suggestions : List<Product>, orderViewModel: OrderViewModel){
     Column(modifier = Modifier.padding(16.dp)) {
         Text(text = productType.name)
         LazyRow(
@@ -98,12 +93,12 @@ fun ProductsList(productType :ProductType,suggestions : List<Product>, orderView
                         .fillMaxSize()
                         .padding(8.dp)) {
                         Text(
-                            text = AnnotatedString(suggestion.name) ,
+                            text = AnnotatedString(suggestion.Name) ,
                             style = TextStyle(fontSize = 20.sp),
                             //navController.navigate(Screen.DetailScreen.withArgs(pizza.name))
 
                         )
-                        Text(text=suggestion.price.toString(),fontSize =18.sp)
+                        Text(text=suggestion.Cost.toString(),fontSize =18.sp)
                     }
                 }
             }

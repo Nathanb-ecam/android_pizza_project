@@ -14,14 +14,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.pizza_app_android.models.Pizza
 import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 import com.example.pizza_app_android.models.Product
+import com.example.pizza_app_android.viewmodels.OrderViewModel
 
 
 @Composable
 fun DetailScreen(
     product: Product,
-    appViewModel: RestaurantViewModel = viewModel()
+    orderViewModel:OrderViewModel = viewModel(),
+    appViewModel: RestaurantViewModel= viewModel()
 ){
     val uiState by appViewModel.uiState.collectAsState()
 //"chickens","sauce",
@@ -53,12 +56,12 @@ fun PizzaSection(product: Product, pizzas: List<Product>){
 }
 
 @Composable
-fun PizzaList(pizzas: List<Product>){
+fun PizzaList(pizzas: List<Pizza>){
     Column{
         Text(text="Item")
         LazyRow{
-            items(pizzas){comp->
-                PizzaCard(comp)
+            items(pizzas){pizza->
+                PizzaCard(pizza)
             }
         }
     }
@@ -68,19 +71,19 @@ fun PizzaList(pizzas: List<Product>){
 
 
 @Composable
-fun PizzaCard(pizza: Product){
+fun PizzaCard(pizza: Pizza){
     Card(modifier = Modifier.padding(8.dp), elevation = 4.dp, backgroundColor = Color.LightGray){
         Box(modifier = Modifier
             .height(150.dp)
             .width(150.dp)) {
             Column(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp),
+                .fillMaxSize()
+                .padding(8.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = pizza.name ,
+                    text = pizza.pizza_name ,
                     fontSize = 24.sp,
                     //navController.navigate(Screen.DetailScreen.withArgs(pizza.name))
                 )
