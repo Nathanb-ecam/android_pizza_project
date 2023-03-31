@@ -1,5 +1,6 @@
 package com.example.pizza_app_android
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,7 +17,10 @@ import com.example.pizza_app_android.models.Product
 
 @Composable
 fun ProductList(products:List<Product>){
-
+    Log.i("API", "Int ProductList()");
+    /* products.forEach {
+        Log.i("API", it.productPrice.toString());
+    } */
     LazyColumn(
         modifier = Modifier.fillMaxWidth().height(600.dp),
         contentPadding = PaddingValues(16.dp)
@@ -32,7 +36,7 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier){
     Card(modifier = modifier.padding(8.dp), elevation = 4.dp, backgroundColor = Color.LightGray){
         Row(modifier = Modifier.fillMaxSize().padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
-                text = AnnotatedString(product.name) ,
+                text = AnnotatedString(product.name),// AnnotatedString(product.productName) ,
                 style = TextStyle(fontSize = 20.sp),
                 //navController.navigate(Screen.DetailScreen.withArgs(pizza.name))
 

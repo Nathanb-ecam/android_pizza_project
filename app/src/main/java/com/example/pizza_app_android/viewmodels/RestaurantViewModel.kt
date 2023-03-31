@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.pizza_app_android.Datasource
 import com.example.pizza_app_android.PizzaApi
 import com.example.pizza_app_android.models.Product
+import com.example.pizza_app_android.models.ProductType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,7 +26,7 @@ data class UiState(
 class RestaurantViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(UiState(
                 listOf<Product>(Product(0,"Loading drinks",0f)),
-                listOf<Product>(Product(1,"Loading pizzas",0f)),
+                listOf<Product>(Product(1, "Loading pizzas", 0f)),
                 listOf<Product>(Product(2,"Loading chickens",0f)),
                 listOf<Product>(Product(3,"Loading sauces",0f))
     ));
