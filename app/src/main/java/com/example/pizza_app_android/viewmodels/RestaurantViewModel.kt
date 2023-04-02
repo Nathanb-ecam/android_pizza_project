@@ -21,14 +21,16 @@ data class UiState(
     val pizzas: List<Product>,
     val chickens: List<Product>,
     val sauces: List<Product>,
+    val extras: List<Product>,
 )
 
 class RestaurantViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(UiState(
-                listOf<Product>(Product(0,"Loading drinks",0f)),
-                listOf<Product>(Product(1, "Loading pizzas", 0f)),
-                listOf<Product>(Product(2,"Loading chickens",0f)),
-                listOf<Product>(Product(3,"Loading sauces",0f))
+                listOf<Product>(),//Product(0,"Loading drinks",0f))
+                listOf<Product>(),
+                listOf<Product>(),
+                listOf<Product>(),
+                listOf<Product>()
     ));
 
     val uiState : StateFlow<UiState> = _uiState.asStateFlow();
@@ -111,6 +113,20 @@ class RestaurantViewModel : ViewModel() {
                 val latestSauces = PizzaApi.retrofitService.getSauces()
                 val currentState = _uiState.value;
                 _uiState.value = currentState.copy(sauces = latestSauces);
+            }
+            catch (e:SocketTimeoutException){
+
+            }
+
+            //Log.d("Result",stringResult)
+        }
+    }
+    fun getExtras(){
+        viewModelScope.launch {
+            try{
+                val latestExtras = PizzaApi.retrofitService.getExtras()
+                val currentState = _uiState.value;
+                _uiState.value = currentState.copy(extras = latestExtras);
             }
             catch (e:SocketTimeoutException){
 

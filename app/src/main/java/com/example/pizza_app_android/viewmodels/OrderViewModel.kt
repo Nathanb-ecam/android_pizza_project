@@ -38,7 +38,7 @@ class OrderViewModel : ViewModel() {
 
     fun applySelection(productType: ProductType,product: Product){
         selection[productType.name]= product.name;
-        //Log.i("Map", selection.toString())
+        Log.i("Map", selection.toString())
 
     }
 

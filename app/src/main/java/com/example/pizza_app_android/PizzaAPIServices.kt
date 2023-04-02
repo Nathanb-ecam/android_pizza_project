@@ -14,7 +14,8 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-private const val BASE_URL = "http://10.0.2.2:3000/api/"
+//private const val BASE_URL = "http://10.0.2.2:3000/api/"
+private const val BASE_URL = "http://192.168.1.41:3000/api/"
 
 private val retrofit = Retrofit.Builder()
     //.addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
@@ -45,6 +46,9 @@ interface PizzaApiServices  {
 
     @GET("chickens")
     suspend fun getChickens():List<Product>
+
+    @GET("extras")
+    suspend fun getExtras():List<Product>
 
 
 }

@@ -28,7 +28,7 @@ import kotlinx.serialization.decodeFromString
 
 @Composable
 fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel, appViewModel: RestaurantViewModel){
-    NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
+    NavHost(navController = navController, startDestination = Screen.LoginScreen.route){
         composable(route=Screen.HomeScreen.route){
             HomeScreen(navController = navController)
         }
@@ -91,25 +91,29 @@ fun BottomNavigationBar(
     onItemClicked : (BottomNavItem)->Unit
 ){
     val backStackEntry = navController.currentBackStackEntryAsState()
-    BottomNavigation(
-        modifier = Modifier,
-        backgroundColor = Color.DarkGray,
-        elevation = 5.dp
-    ){
-        items.forEach{item->
-            val selected = item.route == backStackEntry.value?.destination?.route
-            BottomNavigationItem(
-                selected = selected,
-                onClick = { onItemClicked(item) },
-                selectedContentColor = Color.Red,
-                unselectedContentColor = Color.Gray,
-                icon = {
-                    Icon(
-                        painter = painterResource(id = item.icon_path),
-                        contentDescription = item.name
-                    )
-                }
-            )
+    // if we are currently on the loginscreen, we don't want to have bottom bar
+    if (backStackEntry.value?.destination?.route !=Screen.LoginScreen.route){
+        BottomNavigation(
+            modifier = Modifier,
+            backgroundColor = Color.DarkGray,
+            elevation = 5.dp
+        ){
+            items.forEach{item->
+                val selected = item.route == backStackEntry.value?.destination?.route
+                BottomNavigationItem(
+                    selected = selected,
+                    onClick = { onItemClicked(item) },
+                    selectedContentColor = Color.Red,
+                    unselectedContentColor = Color.Gray,
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = item.icon_path),
+                            contentDescription = item.name
+                        )
+                    }
+                )
+            }
         }
     }
+
 }

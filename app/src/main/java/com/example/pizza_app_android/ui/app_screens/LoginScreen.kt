@@ -18,10 +18,11 @@ import com.example.pizza_app_android.Screen
 import com.example.pizza_app_android.models.User
 import com.example.pizza_app_android.viewmodels.OrderViewModel
 import com.example.pizza_app_android.viewmodels.RestaurantViewModel
+import com.example.pizza_app_android.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController,userViewModel : UserViewModel= viewModel()){
+fun LoginScreen(navController: NavController,userViewModel : UserViewModel = viewModel()){
 
     // need to fetch all authorized users
 

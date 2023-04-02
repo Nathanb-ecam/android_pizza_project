@@ -11,7 +11,7 @@ import com.example.pizza_app_android.models.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.example.pizza_app_android.OrderApi
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,7 +28,7 @@ class UserViewModel : ViewModel() {
     fun authentificate(user : User): Boolean{
         Log.i("API",user.toString())
         var authorized = false;
-        val call: Call<User> = OrderApi.retrofitService.authentify(user)
+       /* val call: Call<User> = PizzaApi.retrofitService.authentify(user)
         call.enqueue(object : Callback<User?> {
             override fun onResponse(call: Call<User?>, response: Response<User?>) {
                 if (response.isSuccessful) {
@@ -51,7 +51,7 @@ class UserViewModel : ViewModel() {
                 Log.i( "API","Error in authentification")
             }
         }
-        )
+        )*/
         return authorized;
     }
 

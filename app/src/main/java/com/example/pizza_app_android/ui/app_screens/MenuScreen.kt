@@ -5,10 +5,14 @@ import android.content.ClipData
 import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.*
@@ -47,62 +51,85 @@ fun MenuScreen(
     val uiState by appViewModel.uiState.collectAsState()
     appViewModel.getDrinks()
     appViewModel.getPizzas()
+    appViewModel.getChickens()
+    appViewModel.getExtras()
+    appViewModel.getSauces()
 
-    Column{
-        Text(text="Create your menu",fontSize = 32.sp)
-        Column(modifier=Modifier.fillMaxSize()){
-            orderViewModel.showOrderContent()
-            ProductsList(productType = ProductType.Drink,uiState.drinks,orderViewModel)
-            ProductsList(productType = ProductType.Pizza,uiState.pizzas,orderViewModel)
-            ProductsList(productType = ProductType.Chicken,uiState.chickens,orderViewModel)
-            ProductsList(productType = ProductType.Sauce,uiState.sauces,orderViewModel)
+    Surface(modifier = Modifier.fillMaxSize()){
+        Column(modifier = Modifier.fillMaxSize()){
+            Text(text="Create your menu",fontSize = 32.sp)
+            Column(modifier= Modifier
+                .height(450.dp)
+                .verticalScroll(rememberScrollState())){
+                //Log.i("API",uiState.javaClass.declaredFields.size.toString())
+                //val uiAttributes = uiState.javaClass.declaredFields.map{it.name};
+                //Log.i("API",uiAttributes.toString())
+                    //ProductsRowList(productType = it., suggestions = , orderViewModel = )
+                orderViewModel.showOrderContent()
+                ProductsRowList(productType = ProductType.Drink,uiState.drinks,orderViewModel)
+                ProductsRowList(productType = ProductType.Pizza,uiState.pizzas,orderViewModel)
+                ProductsRowList(productType = ProductType.Chicken,uiState.chickens,orderViewModel)
+                ProductsRowList(productType = ProductType.Sauce,uiState.sauces,orderViewModel)
+                ProductsRowList(productType = ProductType.Extra,uiState.extras,orderViewModel)
+            }
             Button(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
                 onClick = {orderViewModel.addMenuToOrder();orderViewModel.showOrderContent();}){
-                Text(text="Ajouter le menu à la commande")
+                Text(text="Ajouter la selection")
             }
         }
-
-
-        //DrinkList(uiState.drinks,navController = navController)
-
     }
-
-
-
 }
-@Composable
-fun ProductsList(productType :ProductType,suggestions : List<Product>, orderViewModel: OrderViewModel){
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = productType.name)
-        LazyRow(
-            modifier = Modifier.height(150.dp),//height(600.dp)
-            contentPadding = PaddingValues(16.dp)
-        ){
-            items(suggestions) { suggestion ->
-                Card(modifier = Modifier.padding(8.dp).height(100.dp).width(100.dp).clickable { orderViewModel.applySelection(productType,suggestion); },
-                    elevation = 4.dp,
-                    backgroundColor = Color.LightGray){
-                    Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
-                        Text(
-                            text = AnnotatedString(suggestion.name) ,
-                            style = TextStyle(fontSize = 20.sp),
-                            //navController.navigate(Screen.DetailScreen.withArgs(pizza.name))
 
-                        )
-                        Text(text=suggestion.price.toString(),fontSize =18.sp)
+
+
+@Composable
+fun ProductsRowList(productType :ProductType,suggestions : List<Product>, orderViewModel: OrderViewModel){
+    if (suggestions.isNotEmpty()){
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = productType.name)
+            LazyRow(
+                modifier = Modifier.height(150.dp),//height(600.dp)
+                contentPadding = PaddingValues(16.dp)
+            ){
+                items(suggestions) { suggestion ->
+                    Card(modifier = Modifier
+                        .padding(8.dp)
+                        .height(100.dp)
+                        .width(100.dp)
+                        .clickable { orderViewModel.applySelection(productType, suggestion); },
+                        elevation = 4.dp,
+                        backgroundColor = Color.LightGray){
+                        Column(modifier = Modifier
+                            .fillMaxSize()
+                            .padding(8.dp)) {
+                            Text(
+                                text = AnnotatedString(suggestion.name) ,
+                                style = TextStyle(fontSize = 20.sp),
+                                //navController.navigate(Screen.DetailScreen.withArgs(pizza.name))
+
+                            )
+                            Text(text=suggestion.price.toString(),fontSize =18.sp)
+                        }
                     }
                 }
             }
         }
     }
+    else{
+        Box(
+            modifier = Modifier.fillMaxSize().padding(10.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("${productType.name}", fontSize = 12.sp)
+            CircularProgressIndicator(
+                modifier = Modifier.wrapContentSize()
+            )
+        }
+    }
 
 }
 
-@Composable
-fun ProductCard(product: Product,modifier: Modifier= Modifier){
-
-}
 
 
 
