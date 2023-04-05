@@ -13,9 +13,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
-
+// android emulator
 //private const val BASE_URL = "http://10.0.2.2:3000/api/"
-private const val BASE_URL = "http://192.168.1.41:3000/api/"
+//emulate on physical device
+private const val BASE_URL = "http://192.168.1.26:3000/api/"
+// api on linux server
+//private const val BASE_URL ="http://192.168.11.136:3000/api/"
 
 private val retrofit = Retrofit.Builder()
     //.addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))

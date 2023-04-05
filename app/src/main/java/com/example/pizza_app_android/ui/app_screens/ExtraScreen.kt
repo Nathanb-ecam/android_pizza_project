@@ -21,18 +21,23 @@ import com.example.pizza_app_android.viewmodels.OrderViewModel
 import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 
 @Composable
-fun DrinkScreen(
-    navController: NavController,
-    appViewModel: RestaurantViewModel = viewModel()
-){
+fun ExtraScreen(navController: NavController,appViewModel: RestaurantViewModel = viewModel()){
     val uiState by appViewModel.uiState.collectAsState()
     //appViewModel.addPizza()
     //appViewModel.update()
-    appViewModel.getDrinks()
+    appViewModel.getExtras()
     Surface(){
         Column {
-            Text(text="Nos boissons", style=headerStyle)
-            ProductList(ProductType.Drink,uiState.drinks,navController=navController)
+            Text(text="Extras", style=headerStyle)
+            //val pizzas = listOf<Pizza>(Pizza(0,"marg",12f),Pizza(0,"haw",12f))
+            // Log.i("API",pizzas[0].name.toString())
+            Log.i("API", "Out ProductList()");
+/*            val pizzas = uiState.pizzas
+            val products = mutableListOf<Product>()
+            pizzas.forEach {
+                products.add(Product(it.id,it.name,it.price))
+            }*/
+            ProductList(ProductType.Extra,uiState.extras,navController=navController)
         }
     }
 }

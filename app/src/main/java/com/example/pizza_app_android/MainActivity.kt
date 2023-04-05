@@ -43,11 +43,16 @@ class MainActivity : ComponentActivity() {
                                     route = Screen.DrinkScreen.route,
                                     icon_path = R.drawable.drink_icon
                                 ),
-  /*                              BottomNavItem(
-                                    name="Login",
-                                    route = Screen.LoginScreen.route,
-                                    icon_path = R.drawable.login_icon
-                                ),*/
+                                BottomNavItem(
+                                    name="Extras",
+                                    route = Screen.ExtraScreen.route,
+                                    icon_path = R.drawable.extra_icon
+                                ),
+                                BottomNavItem(
+                                    name="Recap",
+                                    route = Screen.RecapScreen.route,
+                                    icon_path = R.drawable.cart_icon
+                                ),
                             ),
                             navController = navController,
                             onItemClicked ={
