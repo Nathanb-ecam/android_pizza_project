@@ -95,7 +95,7 @@ fun MenuScreen(
             }
             Button(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                onClick = {orderViewModel.addMenuToOrder();orderViewModel.showOrderContent();},
+                onClick = {orderViewModel.addMenuToOrder();orderViewModel.showOrderContent();navController.navigate(Screen.MenuScreen.route)},
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.hsl(345f, 0.95f, 0.25f, 1f),
                     contentColor = Color.White

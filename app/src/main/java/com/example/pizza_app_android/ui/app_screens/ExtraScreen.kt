@@ -25,7 +25,7 @@ fun ExtraScreen(navController: NavController,appViewModel: RestaurantViewModel =
     val uiState by appViewModel.uiState.collectAsState()
     //appViewModel.addPizza()
     //appViewModel.update()
-    appViewModel.getExtras()
+    //appViewModel.getExtras()
     Surface(){
         Column {
             Text(text="Extras", style=headerStyle)

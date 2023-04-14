@@ -16,7 +16,7 @@ import retrofit2.http.Path
 // android emulator
 //private const val BASE_URL = "http://10.0.2.2:3000/api/"
 //emulate on physical device
-private const val BASE_URL = "http://192.168.1.26:3000/api/"
+private const val BASE_URL = "http://192.168.1.36:3000/api/"
 // api on linux server
 //private const val BASE_URL ="http://192.168.11.136:3000/api/"
 

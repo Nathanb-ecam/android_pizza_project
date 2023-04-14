@@ -33,9 +33,6 @@ import kotlinx.serialization.decodeFromString
 @Composable
 fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel, appViewModel: RestaurantViewModel){
     NavHost(navController = navController, startDestination = Screen.LoginScreen.route){
-        composable(route=Screen.HomeScreen.route){
-            HomeScreen(navController = navController)
-        }
         composable(route=Screen.PizzaScreen.route){
             PizzaScreen(navController = navController,appViewModel=appViewModel)
         }

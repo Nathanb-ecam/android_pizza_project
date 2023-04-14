@@ -22,7 +22,7 @@ fun PizzaScreen(
     val uiState by appViewModel.uiState.collectAsState()
     //appViewModel.addPizza()
     //appViewModel.update()
-    appViewModel.getPizzas()
+    //appViewModel.getPizzas()
     Surface(){
         Column {
             Text(text="Nos pizzas",style= headerStyle)

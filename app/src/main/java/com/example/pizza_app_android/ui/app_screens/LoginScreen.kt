@@ -56,7 +56,7 @@ fun LoginScreen(navController: NavController,userViewModel : UserViewModel = vie
                     //userViewModel.authentificate(User(username,password));
                     Log.i("API",uiState.loggedIn.toString())
                     if (uiState.loggedIn){
-                        navController.navigate(Screen.HomeScreen.route)
+                        navController.navigate(Screen.MenuScreen.route)
                     }
                 }){
                 Text(text="Envoyer")

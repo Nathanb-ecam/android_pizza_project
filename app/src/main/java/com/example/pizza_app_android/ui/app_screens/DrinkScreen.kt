@@ -28,7 +28,7 @@ fun DrinkScreen(
     val uiState by appViewModel.uiState.collectAsState()
     //appViewModel.addPizza()
     //appViewModel.update()
-    appViewModel.getDrinks()
+    //appViewModel.getDrinks()
     Surface(){
         Column {
             Text(text="Nos boissons", style=headerStyle)
