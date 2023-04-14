@@ -55,36 +55,11 @@ fun ProductCard(productType: ProductType,product: Product,navController:NavContr
         //Log.i("",json)
         navController.navigate(Screen.DetailScreen.withArgs(jsonProduct,jsonProductType))
     }, elevation = 4.dp, backgroundColor = Color.LightGray){
-        var productQuantity by remember{ mutableStateOf(0) }
         Row(modifier = Modifier
             .fillMaxSize()
             .padding(8.dp).wrapContentHeight(), horizontalArrangement = Arrangement.SpaceBetween,verticalAlignment = Alignment.CenterVertically) {
-            Column{
-                Text(text =product.name,style= paragraphStyle)
-                Text(text="${product.price} $",style= paragraphStyle)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically){
-                Button(
-                    modifier=Modifier.height(35.dp).width(35.dp),
-                    onClick = {
-                            if(productQuantity==0) productQuantity else productQuantity--
-                          },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.hsl(345f, 0.95f, 0.25f, 1f),
-                        contentColor = Color.White
-                    )){Text("-",textAlign = TextAlign.Center)}
-                Text(text=productQuantity.toString())
-                Button(
-                    modifier=Modifier.height(35.dp).width(35.dp),
-                    onClick = {
-                        productQuantity++;
-                              },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.hsl(345f, 0.95f, 0.25f, 1f),
-                        contentColor = Color.White
-                    )){Text(text="+", textAlign = TextAlign.Center)}
-            }
-
+            Text(text =product.name,style= paragraphStyle)
+            Text(text="${product.price} $",style= paragraphStyle)
         }
     }
 }

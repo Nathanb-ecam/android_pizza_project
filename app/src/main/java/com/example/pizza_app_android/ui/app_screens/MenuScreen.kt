@@ -1,26 +1,21 @@
 package com.example.pizza_app_android.ui.app_screens
 
 
-import android.content.ClipData
 import android.util.Log
-import androidx.compose.animation.animateColorAsState
+import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -30,7 +25,6 @@ import androidx.navigation.NavController
 import com.example.pizza_app_android.Screen
 import com.example.pizza_app_android.headerStyle
 import com.example.pizza_app_android.mediumHeader
-import com.example.pizza_app_android.models.Menu
 import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.models.ProductType
 import com.example.pizza_app_android.paragraphStyle
@@ -65,7 +59,8 @@ fun MenuScreen(
         Column(modifier = Modifier.fillMaxSize()){
             Text(text="Menu", style = headerStyle)
             Column(modifier= Modifier
-                .height(450.dp)
+                //.height(500.dp)
+                .fillMaxHeight(0.8f)
                 .verticalScroll(rememberScrollState())){
                 //Log.i("API",uiState.javaClass.declaredFields.size.toString())
                 //val uiAttributes = uiState.javaClass.declaredFields.map{it.name};
@@ -74,6 +69,7 @@ fun MenuScreen(
                 orderViewModel.showOrderContent()
                 val all = listOf<List<Product>>(uiState.drinks,uiState.sauces,uiState.chickens,uiState.pizzas)
                 val allFetched = all.all{it.isNotEmpty()}
+
                 if (allFetched){
                     ProductsRowList(productType = ProductType.Drink,uiState.drinks,orderViewModel)
                     ProductsRowList(productType = ProductType.Pizza,uiState.pizzas,orderViewModel)
@@ -93,9 +89,26 @@ fun MenuScreen(
                     }
                 }
             }
+            val context = LocalContext.current
             Button(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                onClick = {orderViewModel.addMenuToOrder();orderViewModel.showOrderContent();navController.navigate(Screen.MenuScreen.route)},
+                onClick = {
+                    val s = orderViewModel.getSelection()
+                    Log.i("Order","selection")
+                    //Log.i("Order","${s.chicken} ${s.sauce} ${it.drink} ${it.pizza}")
+
+                    if(orderViewModel.getSelection().size==4){
+                        orderViewModel.addMenuToOrder()
+                        orderViewModel.showOrderContent()
+                        Toast.makeText(context, "Menu ajouté à la commande", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Screen.MenuScreen.route)
+
+                    }
+                    else{
+                        Toast.makeText(context, "Veuiller sélectionner un élément pour chaque catégorie", Toast.LENGTH_LONG).show()
+                    }
+
+                          },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.hsl(345f, 0.95f, 0.25f, 1f),
                     contentColor = Color.White
@@ -128,7 +141,7 @@ fun ProductsRowList(productType :ProductType,suggestions : List<Product>, orderV
                             Log.i("API",index.toString())
                             selectedIndex=index; },
                         elevation = 4.dp,
-                        backgroundColor = if (selectedIndex==index)Color.DarkGray else Color.LightGray){
+                        backgroundColor = if (selectedIndex==index)Color.Gray else Color.LightGray){
                         Column(modifier = Modifier
                             .fillMaxSize()
                             .padding(8.dp),

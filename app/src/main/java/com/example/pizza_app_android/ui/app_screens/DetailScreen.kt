@@ -1,5 +1,6 @@
 package com.example.pizza_app_android.ui.app_screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,27 +42,34 @@ fun DetailScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ){
-        Column {
-            Text(text="${productType.name} ${product.name}", style = headerStyle)
-            //Text(text=product.name)
-            Text(text="${product.price} euros",style= paragraphStyle)
-            if(product.desc!=""){
-                Text(text=product.desc,style= paragraphStyle)
+        Column(modifier=Modifier.fillMaxSize()){
+            Text(text="${productType.name} ", style = headerStyle)
+            Card(modifier=Modifier.wrapContentWidth().fillMaxHeight(0.5f).align(Alignment.CenterHorizontally), backgroundColor = Color.LightGray){
+                Column(modifier=Modifier.padding(8.dp), verticalArrangement = Arrangement.SpaceAround){
+
+                    Text(text="${product.name}", style = paragraphStyle)
+                    if(product.desc!=""){
+                        Text(text=product.desc,style= paragraphStyle,color=Color.Gray)
+                    }
+                    Text(text="${product.price} euros",style= paragraphStyle)
+
+                    val context = LocalContext.current
+                    Button(
+                        //modifier=Modifier.align(alignment = Alignment.Center),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.hsl(345f, 0.95f, 0.25f, 1f),
+                            contentColor = Color.White
+                        ),
+                        onClick = {
+                            orderViewModel.addExtra(productType,product);
+                            orderViewModel.showOrderContent();
+                            Toast.makeText(context, "${product.name} ajouté à la commande", Toast.LENGTH_SHORT).show()
+                        }
+                    ){
+                        Text(text="Ajouter à la commande")
+                    }
+                }
             }
-            //DrinkSection(formula = formula,uiState.drinks)
-        }
-        Button(
-            modifier=Modifier.align(alignment = Alignment.Center),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.hsl(345f, 0.95f, 0.25f, 1f),
-                contentColor = Color.White
-            ),
-            onClick = {
-                orderViewModel.addExtra(productType,product);
-                orderViewModel.showOrderContent();
-            }
-        ){
-            Text(text="Ajouter à la commande",style= paragraphStyle)
         }
     }
 }

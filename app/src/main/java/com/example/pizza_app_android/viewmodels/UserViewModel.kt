@@ -3,18 +3,10 @@ package com.example.pizza_app_android.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.pizza_app_android.PizzaApi
-import com.example.pizza_app_android.models.Menu
-import com.example.pizza_app_android.models.Product
-import com.example.pizza_app_android.models.ProductType
 import com.example.pizza_app_android.models.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 data class UserUIState(
     val loggedIn: Boolean,

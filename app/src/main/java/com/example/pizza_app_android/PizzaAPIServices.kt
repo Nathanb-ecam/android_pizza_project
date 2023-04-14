@@ -2,6 +2,8 @@ package com.example.pizza_app_android
 
 
 import com.example.pizza_app_android.models.Menu
+import com.example.pizza_app_android.models.OrderExtra
+import com.example.pizza_app_android.models.Selection
 import com.example.pizza_app_android.models.Product
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -16,7 +18,7 @@ import retrofit2.http.Path
 // android emulator
 //private const val BASE_URL = "http://10.0.2.2:3000/api/"
 //emulate on physical device
-private const val BASE_URL = "http://192.168.1.36:3000/api/"
+private const val BASE_URL = "http://192.168.1.41:3000/api/"
 // api on linux server
 //private const val BASE_URL ="http://192.168.11.136:3000/api/"
 
@@ -39,7 +41,7 @@ interface PizzaApiServices  {
     fun addPizza(@Body pizza: Product?): Call<Product>
 
     @GET("menus")
-    suspend fun getMenus():List<Menu>
+    suspend fun getMenus():List<Selection>
 
     @GET("drinks")
     suspend fun getDrinks():List<Product>
@@ -53,7 +55,11 @@ interface PizzaApiServices  {
     @GET("extras")
     suspend fun getExtras():List<Product>
 
+    @POST("menus")
+    fun sendMenu(@Body menu: Menu): Call<Menu>
 
+    @POST("orderextras")
+    fun sendExtra(@Body extra: OrderExtra): Call<OrderExtra>
 }
 
 // singleton to limit high ressources use

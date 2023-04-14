@@ -4,11 +4,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Menu(
-    val sauce: String="",
-    val drink: String="",
-    val pizza: String="",
-    val chicken: String="",
+    val idSauce: Int?=null,
+    val idDrink: Int?=null,
+    val idPizza: Int?=null,
+    val idChicken: Int?=null,
 
-) {
+    ) {
 
 }
