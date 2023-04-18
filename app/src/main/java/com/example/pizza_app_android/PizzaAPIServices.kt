@@ -1,10 +1,7 @@
 package com.example.pizza_app_android
 
 
-import com.example.pizza_app_android.models.Menu
-import com.example.pizza_app_android.models.OrderExtra
-import com.example.pizza_app_android.models.Selection
-import com.example.pizza_app_android.models.Product
+import com.example.pizza_app_android.models.*
 import retrofit2.Retrofit
 import retrofit2.http.GET
 /*import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -13,12 +10,13 @@ import okhttp3.MediaType*/
 import retrofit2.Call
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 // android emulator
-//private const val BASE_URL = "http://10.0.2.2:3000/api/"
+private const val BASE_URL = "http://10.0.2.2:3000/api/"
 //emulate on physical device
-private const val BASE_URL = "http://192.168.1.41:3000/api/"
+//private const val BASE_URL = "http://192.168.1.2:3000/api/"
 // api on linux server
 //private const val BASE_URL ="http://192.168.11.136:3000/api/"
 
@@ -56,10 +54,13 @@ interface PizzaApiServices  {
     suspend fun getExtras():List<Product>
 
     @POST("menus")
-    fun sendMenu(@Body menu: Menu): Call<Menu>
+    fun sendMenu(@Header("authorization") token: String,@Body menu: Menu): Call<Menu>
 
     @POST("orderextras")
-    fun sendExtra(@Body extra: OrderExtra): Call<OrderExtra>
+    fun sendExtra(@Header("authorization") @Body extra: OrderExtra): Call<OrderExtra>
+
+    @POST("login")
+    fun login(@Body login: Login) : Call<Token>
 }
 
 // singleton to limit high ressources use

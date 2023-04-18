@@ -11,6 +11,8 @@ import retrofit2.Response
 
 
 class OrderViewModel : ViewModel() {
+    var orderCredentials = Token("","")
+
     private val orderSelections  = mutableListOf<Selection>();
     private val orderExtras  = mutableMapOf<ProductType,MutableList<Product>>();
     private val selection:MutableMap<String,Product> = mutableMapOf<String,Product>(
@@ -75,13 +77,15 @@ class OrderViewModel : ViewModel() {
     }
 
     fun sendOrder(){
+        Log.i("Send Order",orderCredentials.token)
         orderSelections.forEach {
-            Log.i("Order",it.toString())
+            Log.i("Send Order",it.toString())
+            Log.i("Send Order","${it.sauce?.id} ${it.drink?.id} ${it.pizza?.id} ${it.chicken?.id}")
             val menu = Menu(it.sauce?.id,it.drink?.id,it.pizza?.id,it.chicken?.id)
-            val call: Call<Menu> = PizzaApi.retrofitService.sendMenu(menu)
+            val call: Call<Menu> = PizzaApi.retrofitService.sendMenu(orderCredentials.token,menu)
             call.enqueue(object : Callback<Menu?> {
                 override fun onResponse(call: Call<Menu?>, response: Response<Menu?>) {
-                    Log.i( "API","Item added to api")
+                    Log.i( "Send Order","Menu added to api")
                 }
 
                 override fun onFailure(call: Call<Menu?>, t: Throwable) {

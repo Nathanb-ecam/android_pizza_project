@@ -3,50 +3,57 @@ package com.example.pizza_app_android.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.pizza_app_android.models.User
+import com.example.pizza_app_android.PizzaApi
+import com.example.pizza_app_android.models.Login
+import com.example.pizza_app_android.models.Token
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 data class UserUIState(
     val loggedIn: Boolean,
 )
 
 class UserViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(UserUIState(true))
+    private val _uiState = MutableStateFlow(UserUIState(false))
 
     val uiState : StateFlow<UserUIState> = _uiState.asStateFlow();
 
-    fun authentificate(user : User): Boolean{
-        Log.i("API",user.toString())
-        var authorized = false;
-       /* val call: Call<User> = PizzaApi.retrofitService.authentify(user)
-        call.enqueue(object : Callback<User?> {
-            override fun onResponse(call: Call<User?>, response: Response<User?>) {
+    fun authentificate(orderViewModel: OrderViewModel,login:Login){
+
+        val call: Call<Token> = PizzaApi.retrofitService.login(Login(login.name,login.password))
+        call.enqueue(object : Callback<Token?> {
+            override fun onResponse(call: Call<Token?>, response: Response<Token?>) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
-                    Log.i("API",responseBody.toString())
+                    //Log.i("API",responseBody.toString())
                     if (responseBody != null) {
-                        if(user.name == responseBody.name && user.password == responseBody.password){
-                            _uiState.value = _uiState.value.copy(loggedIn =true);
-                        }
+                        orderViewModel.orderCredentials = Token(responseBody.token,responseBody.maxAge)
+                        Log.i("Login","Api token : ${orderViewModel.orderCredentials.token}")
+                        _uiState.value = uiState.value.copy(loggedIn = true)
                     }
                     // handle the response body here
                 } else {
                     // handle unsuccessful response
-                    Log.i("API","invalid credentials")
+                    Log.i("Login","invalid credentials")
 
                 }
             }
 
-            override fun onFailure(call: Call<User?>, t: Throwable) {
+            override fun onFailure(call: Call<Token?>, t: Throwable) {
                 Log.i( "API","Error in authentification")
             }
         }
-        )*/
-        return authorized;
+        )
     }
 
+
+}
+
+private fun <T> Call<T>.enqueue(any: Any) {
 
 }
 

@@ -28,7 +28,7 @@ fun ExtraScreen(navController: NavController,appViewModel: RestaurantViewModel =
     //appViewModel.getExtras()
     Surface(){
         Column {
-            Text(text="Extras", style=headerStyle)
+            Text(text="Supplements", style=headerStyle)
             //val pizzas = listOf<Pizza>(Pizza(0,"marg",12f),Pizza(0,"haw",12f))
             // Log.i("API",pizzas[0].name.toString())
             Log.i("API", "Out ProductList()");

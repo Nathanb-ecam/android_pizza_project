@@ -74,7 +74,7 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
             RecapScreen(navController = navController,orderViewModel= orderViewModel,appViewModel=appViewModel)
         }
         composable(route=Screen.LoginScreen.route){
-            LoginScreen(navController = navController)
+            LoginScreen(navController = navController,orderViewModel=orderViewModel)
         }
 
     }

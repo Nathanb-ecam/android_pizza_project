@@ -13,21 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.pizza_app_android.Screen
 import com.example.pizza_app_android.headerStyle
-import com.example.pizza_app_android.models.User
+import com.example.pizza_app_android.models.Login
 import com.example.pizza_app_android.viewmodels.OrderViewModel
-import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 import com.example.pizza_app_android.viewmodels.UserViewModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalGraphicsApi::class)
 @Composable
-fun LoginScreen(navController: NavController,userViewModel : UserViewModel = viewModel()){
+fun LoginScreen(navController: NavController,orderViewModel: OrderViewModel,userViewModel : UserViewModel = viewModel()){
 
     // need to fetch all authorized users
 
@@ -53,8 +49,8 @@ fun LoginScreen(navController: NavController,userViewModel : UserViewModel = vie
                     contentColor = Color.White
                 ),
                 onClick = {
-                    //userViewModel.authentificate(User(username,password));
-                    Log.i("API",uiState.loggedIn.toString())
+                    userViewModel.authentificate(orderViewModel, Login(username,password));
+                    //Log.i("Token","token ${token}")
                     if (uiState.loggedIn){
                         navController.navigate(Screen.MenuScreen.route)
                     }
