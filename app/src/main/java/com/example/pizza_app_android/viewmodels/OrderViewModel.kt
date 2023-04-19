@@ -82,7 +82,7 @@ class OrderViewModel : ViewModel() {
             Log.i("Send Order",it.toString())
             Log.i("Send Order","${it.sauce?.id} ${it.drink?.id} ${it.pizza?.id} ${it.chicken?.id}")
             val menu = Menu(it.sauce?.id,it.drink?.id,it.pizza?.id,it.chicken?.id)
-            val call: Call<Menu> = PizzaApi.retrofitService.sendMenu(orderCredentials.token,menu)
+            val call: Call<Menu> = PizzaApi.retrofitService.sendMenu("Bearer "+orderCredentials.token,menu)
             call.enqueue(object : Callback<Menu?> {
                 override fun onResponse(call: Call<Menu?>, response: Response<Menu?>) {
                     Log.i( "Send Order","Menu added to api")
@@ -96,10 +96,19 @@ class OrderViewModel : ViewModel() {
 
         orderExtras.forEach {
             Log.i("Order",it.toString())
+            val type = it.key
             val products:List<Product> = it.value
             products.forEach {
-                val orderextra = OrderExtra(1,1,it.id)
-                val call: Call<OrderExtra> = PizzaApi.retrofitService.sendExtra(orderextra)
+                var orderextra = OrderExtra(0)
+                when(type){
+                    ProductType.Drink-> orderextra = OrderExtra(1,it.id)
+                    ProductType.Pizza-> orderextra = OrderExtra(1,null,it.id)
+                    ProductType.Chicken-> orderextra = OrderExtra(1,null,null,it.id)
+                    ProductType.Sauce-> orderextra = OrderExtra(1,null,null,null,it.id)
+                }
+
+                //Log.i("Login","Bearer "+orderCredientals.token)
+                val call: Call<OrderExtra> = PizzaApi.retrofitService.sendExtra("Bearer "+orderCredentials.token,orderextra)
                 call.enqueue(object : Callback<OrderExtra?> {
                     override fun onResponse(call: Call<OrderExtra?>, response: Response<OrderExtra?>) {
                         Log.i( "API","Item added to api")

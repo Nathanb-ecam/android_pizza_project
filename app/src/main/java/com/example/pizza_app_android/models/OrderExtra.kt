@@ -5,7 +5,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 open class OrderExtra(
     val idOrder:Int,
-    val quantityExtra: Int=1,
-    val idExtra : Int,
+    val idExtraDrink : Int? = null,
+    val idExtraPizza : Int? = null,
+    val idExtraChicken : Int? = null,
+    val idExtraSauce : Int? = null,
 
 )

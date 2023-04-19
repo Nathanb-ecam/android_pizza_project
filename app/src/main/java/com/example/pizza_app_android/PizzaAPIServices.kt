@@ -14,11 +14,11 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 // android emulator
-private const val BASE_URL = "http://10.0.2.2:3000/api/"
+//private const val BASE_URL = "http://10.0.2.2:3000/api/"
 //emulate on physical device
-//private const val BASE_URL = "http://192.168.1.2:3000/api/"
+//private const val BASE_URL = "http://172.17.33.250:3000/api/"
 // api on linux server
-//private const val BASE_URL ="http://192.168.11.136:3000/api/"
+private const val BASE_URL ="http://pat.infolab.ecam.be:60836/api/"
 
 private val retrofit = Retrofit.Builder()
     //.addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
@@ -54,10 +54,10 @@ interface PizzaApiServices  {
     suspend fun getExtras():List<Product>
 
     @POST("menus")
-    fun sendMenu(@Header("authorization") token: String,@Body menu: Menu): Call<Menu>
+    fun sendMenu(@Header("Authorization") token: String,@Body menu: Menu): Call<Menu>
 
     @POST("orderextras")
-    fun sendExtra(@Header("authorization") @Body extra: OrderExtra): Call<OrderExtra>
+    fun sendExtra(@Header("Authorization") token: String,@Body extra: OrderExtra): Call<OrderExtra>
 
     @POST("login")
     fun login(@Body login: Login) : Call<Token>

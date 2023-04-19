@@ -33,7 +33,9 @@ class UserViewModel : ViewModel() {
                     if (responseBody != null) {
                         orderViewModel.orderCredentials = Token(responseBody.token,responseBody.maxAge)
                         Log.i("Login","Api token : ${orderViewModel.orderCredentials.token}")
-                        _uiState.value = uiState.value.copy(loggedIn = true)
+                        val currentState = _uiState.value;
+                        _uiState.value = currentState.copy(loggedIn = true);
+                        Log.i("Login",_uiState.value.loggedIn.toString())
                     }
                     // handle the response body here
                 } else {
