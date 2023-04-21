@@ -30,7 +30,8 @@ fun LoginScreen(navController: NavController,orderViewModel: OrderViewModel,user
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val uiState by userViewModel.uiState.collectAsState()
-    //var signedIn by remember{ mutableStateOf(false) }
+    var signedIn = false
+
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -55,12 +56,17 @@ fun LoginScreen(navController: NavController,orderViewModel: OrderViewModel,user
                             navController.navigate(Screen.MenuScreen.route)
                         }
                     }){
-                    Text(text="Envoyer")
+                    if(uiState.loggedIn){
+                        Text(text="Passer au menu")
+                    }
+                    else{
+                        Text(text="Envoyer")
+                    }
                 }
-                Checkbox(checked =uiState.loggedIn, onCheckedChange = {navController.navigate(Screen.MenuScreen.route)},
-                )
+                Checkbox(checked =uiState.loggedIn, onCheckedChange = {})
 
             }
         }
     }
+
 }

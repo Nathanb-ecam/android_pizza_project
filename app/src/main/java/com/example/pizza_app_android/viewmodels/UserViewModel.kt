@@ -35,7 +35,6 @@ class UserViewModel : ViewModel() {
                         Log.i("Login","Api token : ${orderViewModel.orderCredentials.token}")
                         val currentState = _uiState.value;
                         _uiState.value = currentState.copy(loggedIn = true);
-                        Log.i("Login",_uiState.value.loggedIn.toString())
                     }
                     // handle the response body here
                 } else {
@@ -46,7 +45,7 @@ class UserViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<Token?>, t: Throwable) {
-                Log.i( "API","Error in authentification")
+                Log.i( "API",t.toString())
             }
         }
         )

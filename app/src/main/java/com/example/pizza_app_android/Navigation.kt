@@ -36,9 +36,6 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
         composable(route=Screen.PizzaScreen.route){
             PizzaScreen(navController = navController,appViewModel=appViewModel)
         }
-        composable(route=Screen.ExtraScreen.route){
-            ExtraScreen(navController = navController,appViewModel=appViewModel)
-        }
 /*        composable(route=Screen.DetailScreen.route){
             DetailScreen()
         }*/

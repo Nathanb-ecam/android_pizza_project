@@ -7,7 +7,6 @@ sealed class Screen(val route:String) {
     object PizzaScreen : Screen("pizza")
     object DetailScreen : Screen("detail")
     object LoginScreen : Screen("login")
-    object ExtraScreen : Screen("extra")
     object RecapScreen : Screen("recap")
 
     fun withArgs(vararg args :String):String{

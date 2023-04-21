@@ -7,6 +7,7 @@ data class User(
     val user_id:Int,
     val name : String,
     val password : String,
+    val isAdmin :Boolean,
     val points: Int = 0,
     val token:String=""
 )

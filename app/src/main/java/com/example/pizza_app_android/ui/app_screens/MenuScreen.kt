@@ -52,7 +52,6 @@ fun MenuScreen(
     appViewModel.getDrinks()
     appViewModel.getPizzas()
     appViewModel.getChickens()
-    appViewModel.getExtras()
     appViewModel.getSauces()
 
     Surface(modifier = Modifier.fillMaxSize()){

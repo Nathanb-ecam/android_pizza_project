@@ -21,7 +21,6 @@ data class UiState(
     val pizzas: List<Product>,
     val chickens: List<Product>,
     val sauces: List<Product>,
-    val extras: List<Product>,
 )
 
 class RestaurantViewModel : ViewModel() {
@@ -30,7 +29,6 @@ class RestaurantViewModel : ViewModel() {
                 listOf<Product>(),
                 listOf<Product>(),
                 listOf<Product>(),
-                listOf<Product>()
     ));
 
     val uiState : StateFlow<UiState> = _uiState.asStateFlow();
@@ -121,7 +119,7 @@ class RestaurantViewModel : ViewModel() {
             //Log.d("Result",stringResult)
         }
     }
-    fun getExtras(){
+/*    fun getExtras(){
         viewModelScope.launch {
             try{
                 val latestExtras = PizzaApi.retrofitService.getExtras()
@@ -134,6 +132,6 @@ class RestaurantViewModel : ViewModel() {
 
             //Log.d("Result",stringResult)
         }
-    }
+    }*/
 }
 

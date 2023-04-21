@@ -44,11 +44,6 @@ class MainActivity : ComponentActivity() {
                                     icon_path = R.drawable.drink_icon
                                 ),
                                 BottomNavItem(
-                                    name="Extras",
-                                    route = Screen.ExtraScreen.route,
-                                    icon_path = R.drawable.extra_icon
-                                ),
-                                BottomNavItem(
                                     name="Recap",
                                     route = Screen.RecapScreen.route,
                                     icon_path = R.drawable.cart_icon
