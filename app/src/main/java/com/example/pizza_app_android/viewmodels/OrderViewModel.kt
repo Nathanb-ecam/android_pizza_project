@@ -11,7 +11,7 @@ import retrofit2.Response
 
 
 class OrderViewModel : ViewModel() {
-    var orderCredentials = Token("","")
+    var orderCredentials = Token("","",false)
 
     private val orderSelections  = mutableListOf<Selection>();
     private val orderExtras  = mutableMapOf<ProductType,MutableList<Product>>();
