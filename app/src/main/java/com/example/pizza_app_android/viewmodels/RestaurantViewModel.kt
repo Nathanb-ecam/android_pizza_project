@@ -34,9 +34,9 @@ class RestaurantViewModel : ViewModel() {
     val uiState : StateFlow<UiState> = _uiState.asStateFlow();
 
     fun update(){
-        val latestPizzas = Datasource().fetchPizzas();
+       /* val latestPizzas = Datasource().fetchPizzas();
         val currentState = _uiState.value;
-        _uiState.value = currentState.copy(pizzas = latestPizzas);
+        _uiState.value = currentState.copy(pizzas = latestPizzas);*/
     }
 
 
@@ -46,6 +46,7 @@ class RestaurantViewModel : ViewModel() {
                 val latestPizzas = PizzaApi.retrofitService.getPizzas()
                 val currentState = _uiState.value;
                 _uiState.value = currentState.copy(pizzas = latestPizzas);
+                Log.i("API",latestPizzas.toString())
             }
             catch (e:SocketTimeoutException){
 
@@ -78,6 +79,10 @@ class RestaurantViewModel : ViewModel() {
             try{
                 val latestDrinks = PizzaApi.retrofitService.getDrinks()
                 val currentState = _uiState.value;
+                Log.i("API","Latest Drinks ${latestDrinks}")
+                //Log.i("API","Latest Drinks ${latestDrinks[0].image}")
+                Log.i("API","Latest Drinks ${latestDrinks[0].image}")
+
                 _uiState.value = currentState.copy(drinks = latestDrinks);
             }
             catch (e: SocketTimeoutException){
@@ -95,6 +100,7 @@ class RestaurantViewModel : ViewModel() {
                 val latestChickens = PizzaApi.retrofitService.getChickens()
                 val currentState = _uiState.value;
                 _uiState.value = currentState.copy(chickens = latestChickens);
+                Log.i("API",latestChickens.toString())
             }
             catch (e:SocketTimeoutException){
 

@@ -1,6 +1,8 @@
 package com.example.pizza_app_android.ui.app_screens
 
+import android.graphics.BitmapFactory
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -15,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +29,7 @@ import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.models.ProductType
 import com.example.pizza_app_android.paragraphStyle
 import com.example.pizza_app_android.viewmodels.OrderViewModel
+import java.io.ByteArrayInputStream
 
 
 @OptIn(ExperimentalGraphicsApi::class)
@@ -35,6 +40,10 @@ fun DetailScreen(
     appViewModel: RestaurantViewModel,
     orderViewModel : OrderViewModel
 ){
+    val bitmap = BitmapFactory.decodeByteArray(product.image.data, 0, product.image.data.size)
+
+
+
     val uiState by appViewModel.uiState.collectAsState()
 //"chickens","sauce",
     appViewModel.getPizzas()
@@ -52,7 +61,7 @@ fun DetailScreen(
                         Text(text=product.desc,style= paragraphStyle,color=Color.Gray)
                     }
                     Text(text="${product.price} euros",style= paragraphStyle)
-
+                    Image(bitmap = bitmap.asImageBitmap(), contentDescription = "")
                     val context = LocalContext.current
                     Button(
                         //modifier=Modifier.align(alignment = Alignment.Center),

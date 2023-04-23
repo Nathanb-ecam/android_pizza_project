@@ -29,8 +29,7 @@ fun RecapScreen(
 ){
     val uiState by appViewModel.uiState.collectAsState()
 //"chickens","sauce",
-    appViewModel.getPizzas()
-    appViewModel.getDrinks()
+
     Box(
         modifier = Modifier.fillMaxSize()
     ){
