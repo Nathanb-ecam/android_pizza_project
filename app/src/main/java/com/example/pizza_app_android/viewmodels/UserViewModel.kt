@@ -31,7 +31,7 @@ class UserViewModel : ViewModel() {
                     val responseBody = response.body()
                     //Log.i("API",responseBody.toString())
                     if (responseBody != null) {
-                        orderViewModel.orderCredentials = Token(responseBody.token,responseBody.maxAge,responseBody.isAdmin)
+                        orderViewModel.orderCredentials = Token(responseBody.token,responseBody.maxAge,responseBody.isAdmin,responseBody.user_id)
                         Log.i("Login","Api token : ${orderViewModel.orderCredentials.token}")
                         val currentState = _uiState.value;
                         _uiState.value = currentState.copy(loggedIn = true);
