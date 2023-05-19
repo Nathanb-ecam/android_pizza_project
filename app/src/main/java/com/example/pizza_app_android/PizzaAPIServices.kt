@@ -14,11 +14,11 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 // android emulator
-private const val BASE_URL = "http://10.0.2.2:80/api/"
+//private const val BASE_URL = "http://10.0.2.2:80/api/"
 //emulate on physical device
 //private const val BASE_URL = "http://172.17.33.250:3000/api/"
 // api on linux server
-//private const val BASE_URL ="http://pat.infolab.ecam.be:60836/api/"
+private const val BASE_URL ="http://pat.infolab.ecam.be:60836/api/"
 
 private val retrofit = Retrofit.Builder()
     //.addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
