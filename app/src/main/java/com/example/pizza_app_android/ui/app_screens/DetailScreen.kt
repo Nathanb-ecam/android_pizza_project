@@ -51,7 +51,7 @@ fun DetailScreen(
                     if(product.desc!=""){
                         Text(text=product.desc,style= paragraphStyle,color=Color.Gray)
                     }
-                    Text(text="${product.price} euros",style= paragraphStyle)
+                    Text(text="${product.price} $",style= paragraphStyle)
 
                     val context = LocalContext.current
                     Button(

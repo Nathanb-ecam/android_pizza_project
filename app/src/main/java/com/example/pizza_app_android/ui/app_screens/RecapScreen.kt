@@ -58,7 +58,7 @@ fun RecapScreen(
                                 Text(text="Sauce : ${it.sauce?.name}",style= paragraphStyle)
                                 Text(text="Pizza : ${it.pizza?.name}",style= paragraphStyle)
                                 Text(text="Chicken : ${it.chicken?.name}",style= paragraphStyle)
-                                Text(text="${it.price} euros",style= paragraphStyle)
+                                Text(text="${it.price} $",style= paragraphStyle)
                             }
                         }
                     }
