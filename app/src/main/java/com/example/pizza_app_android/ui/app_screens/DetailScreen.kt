@@ -24,6 +24,7 @@ import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.models.ProductType
 import com.example.pizza_app_android.paragraphStyle
+import com.example.pizza_app_android.titleStyle
 import com.example.pizza_app_android.viewmodels.OrderViewModel
 
 
@@ -42,12 +43,12 @@ fun DetailScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ){
-        Column(modifier=Modifier.fillMaxSize()){
-            Text(text="${productType.name} ", style = headerStyle)
-            Card(modifier=Modifier.wrapContentWidth().fillMaxHeight(0.5f).align(Alignment.CenterHorizontally), backgroundColor = Color.LightGray){
-                Column(modifier=Modifier.padding(8.dp), verticalArrangement = Arrangement.SpaceAround){
+        Text(text="${productType.name} ", style = headerStyle)
+        Column(modifier=Modifier.fillMaxSize(),verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
+            Card(modifier=Modifier.wrapContentWidth().wrapContentHeight().align(Alignment.CenterHorizontally), backgroundColor = Color.LightGray){
+                Column(modifier=Modifier.padding(8.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
 
-                    Text(text="${product.name}", style = paragraphStyle)
+                    Text(text="${product.name}", style = titleStyle)
                     if(product.desc!=""){
                         Text(text=product.desc,style= paragraphStyle,color=Color.Gray)
                     }

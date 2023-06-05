@@ -100,13 +100,14 @@ class OrderViewModel : ViewModel() {
                             addSelectionToDb()
                         }else{
                             Log.i("Send Order","Error Order id has not neen received")
+
                         }
                     }
                 }
             }
 
             override fun onFailure(call: Call<Int?>, t: Throwable) {
-                Log.i( "API","Error while trying to add a menu to api")
+                Log.i( "API","Token might be expired")
             }
         })
     }
