@@ -1,5 +1,6 @@
 package com.example.pizza_app_android.ui.app_screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pizza_app_android.*
@@ -85,6 +87,7 @@ fun RecapScreen(
             Box(modifier=Modifier.fillMaxWidth(),contentAlignment = Alignment.Center){
                 Row(modifier=Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically){
                     Text(text="Total : ${orderViewModel.orderTotal()}",style= paragraphStyle)
+                    val context = LocalContext.current
                     Button(
                         modifier=Modifier.wrapContentWidth(),
                         colors = ButtonDefaults.buttonColors(
@@ -93,6 +96,8 @@ fun RecapScreen(
                         ),
                         onClick = {
                             orderViewModel.sendOrder();
+                            Toast.makeText(context, "Commande envoyée", Toast.LENGTH_SHORT).show()
+
                         }
                     ){
                         Text(text="Envoyer la commande")

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -33,6 +34,7 @@ fun LoginScreen(navController: NavController,orderViewModel: OrderViewModel,user
     var signedIn = false
 
 
+
     Box(
         modifier = Modifier.fillMaxSize()
     ){
@@ -41,7 +43,7 @@ fun LoginScreen(navController: NavController,orderViewModel: OrderViewModel,user
             .align(Alignment.Center)
             .padding(8.dp)) {
             TextField(value = username, onValueChange = { username=it }, label = {Text("Nom d'utilisateur")})
-            TextField(value = password, onValueChange = { password=it }, label = {Text("Mot de passe")})
+            TextField(value = password, onValueChange = { password=it }, label = {Text("Mot de passe")},visualTransformation = PasswordVisualTransformation() )
             Row(horizontalArrangement = Arrangement.SpaceEvenly){
                 Button(
                     //modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
