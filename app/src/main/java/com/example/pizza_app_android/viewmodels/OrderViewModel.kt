@@ -77,10 +77,39 @@ class OrderViewModel : ViewModel() {
     }
 
     fun sendOrder(){
-        // first we need to add a in the table order by giving our user_id
+        // first we need to add a new row in the table order by giving our user_id
         addNewOrderInDb()
 
         Log.i("Send Order",orderCredentials.token)
+
+    }
+
+    fun addNewOrderInDb(){
+        val call: Call<Int> = PizzaApi.retrofitService.addOrder("Bearer "+orderCredentials.token,orderCredentials.user_id)
+        call.enqueue(object : Callback<Int?> {
+            override fun onResponse(call: Call<Int?>, response: Response<Int?>) {
+                Log.i( "Send Order","New order created in db")
+                Log.i("YES","nothing ${response.body().toString()}")
+                if (response.isSuccessful){
+                    val response = response.body()
+                    if (response != null){
+                        order_id = response;
+                        if(order_id!=0){
+                            addSelectionToDb()
+                        }else{
+                            Log.i("Send Order","Error Order id has not neen received")
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Int?>, t: Throwable) {
+                Log.i( "API","Error while trying to add a menu to api")
+            }
+        })
+    }
+
+    fun addSelectionToDb(){
         orderSelections.forEach {
             Log.i("Send Order",it.toString())
             Log.i("Send Order","${it.sauce?.id} ${it.drink?.id} ${it.pizza?.id} ${it.chicken?.id}")
@@ -134,25 +163,8 @@ class OrderViewModel : ViewModel() {
         }
     }
 
-    fun addNewOrderInDb(){
-        val call: Call<Int> = PizzaApi.retrofitService.addOrder("Bearer "+orderCredentials.token,orderCredentials.user_id)
-        call.enqueue(object : Callback<Int?> {
-            override fun onResponse(call: Call<Int?>, response: Response<Int?>) {
-                Log.i( "Send Order","New order created in db")
-                Log.i("YES","nothing ${response.body().toString()}")
-                if (response.isSuccessful){
-                    val response = response.body()
-                    if (response != null){
-                        order_id = response;
-                    }
-                }
-            }
 
-            override fun onFailure(call: Call<Int?>, t: Throwable) {
-                Log.i( "API","Error while trying to add a menu to api")
-            }
-        })
-    }
+
     fun addElementOfOrder(elementOfOrder: ElementOfOrder){
         val call: Call<Int> = PizzaApi.retrofitService.sendElementOfOrder("Bearer "+orderCredentials.token,elementOfOrder)
         call.enqueue(object : Callback<Int?> {

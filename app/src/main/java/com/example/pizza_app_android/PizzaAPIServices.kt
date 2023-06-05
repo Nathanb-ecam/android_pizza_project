@@ -18,7 +18,7 @@ import retrofit2.http.Path
 //emulate on physical device
 //private const val BASE_URL = "http://172.17.33.250:3000/api/"
 // api on linux server
-private const val BASE_URL ="http://pat.infolab.ecam.be:60836/api/"
+private const val BASE_URL ="https://pat.infolab.ecam.be:64336/api/"
 
 private val retrofit = Retrofit.Builder()
     //.addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
