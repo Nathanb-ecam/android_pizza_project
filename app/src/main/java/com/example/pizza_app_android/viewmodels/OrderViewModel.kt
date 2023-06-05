@@ -2,6 +2,8 @@ package com.example.pizza_app_android.viewmodels
 
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.pizza_app_android.PizzaApi
 import com.example.pizza_app_android.models.*
@@ -124,6 +126,7 @@ class OrderViewModel : ViewModel() {
                 call.enqueue(object : Callback<OrderExtra?> {
                     override fun onResponse(call: Call<OrderExtra?>, response: Response<OrderExtra?>) {
                         Log.i( "API","Item added to api")
+
                     }
 
                     override fun onFailure(call: Call<OrderExtra?>, t: Throwable) {
