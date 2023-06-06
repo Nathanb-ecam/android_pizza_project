@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -122,7 +123,7 @@ fun MenuScreen(
 
 @Composable
 fun ProductsRowList(productType :ProductType,suggestions : List<Product>, orderViewModel: OrderViewModel){
-    var selectedIndex by remember{ mutableStateOf(-1) }
+    var selectedIndex by rememberSaveable(){ mutableStateOf(-1) }
     if (suggestions.isNotEmpty()){
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "${productType.name} :",style= mediumHeader)
@@ -137,8 +138,9 @@ fun ProductsRowList(productType :ProductType,suggestions : List<Product>, orderV
                         .width(150.dp)
                         .clickable {
                             orderViewModel.applySelection(productType, suggestion);
-                            Log.i("API",index.toString())
-                            selectedIndex=index; },
+                            Log.i("API", index.toString())
+                            selectedIndex = index;
+                        },
                         elevation = 4.dp,
                         backgroundColor = if (selectedIndex==index)Color.Gray else Color.LightGray){
                         Column(modifier = Modifier

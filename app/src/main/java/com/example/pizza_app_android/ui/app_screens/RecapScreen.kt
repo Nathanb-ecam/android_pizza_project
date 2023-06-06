@@ -76,6 +76,7 @@ fun RecapScreen(
                                     Row( modifier= Modifier.fillMaxWidth(),horizontalArrangement= Arrangement.SpaceBetween){
                                         Text(text=it.name,style= paragraphStyle)
                                         Text(text=it.price.toString(),style= paragraphStyle)
+                                        //Button(onClick=orderViewModel.removeExtra(it.))
 
                                     }
                                 }

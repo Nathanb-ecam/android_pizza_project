@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,8 +29,8 @@ fun LoginScreen(navController: NavController,orderViewModel: OrderViewModel,user
 
 
 
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var username by rememberSaveable() { mutableStateOf("") }
+    var password by rememberSaveable() { mutableStateOf("") }
     val uiState by userViewModel.uiState.collectAsState()
     var signedIn = false
 
