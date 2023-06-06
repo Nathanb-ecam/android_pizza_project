@@ -32,10 +32,14 @@ fun LoginScreen(navController: NavController,orderViewModel: OrderViewModel,user
     var username by rememberSaveable() { mutableStateOf("") }
     var password by rememberSaveable() { mutableStateOf("") }
     val uiState by userViewModel.uiState.collectAsState()
-    var signedIn = false
 
 
 
+    LaunchedEffect(uiState.loggedIn){
+        if (uiState.loggedIn){
+            navController.navigate(Screen.MenuScreen.route)
+        }
+    }
     Box(
         modifier = Modifier.fillMaxSize()
     ){
@@ -55,9 +59,7 @@ fun LoginScreen(navController: NavController,orderViewModel: OrderViewModel,user
                     onClick = {
                         userViewModel.authentificate(orderViewModel, Login(username,password));
                         //Log.i("Token","token ${token}")
-                        if (uiState.loggedIn){
-                            navController.navigate(Screen.MenuScreen.route)
-                        }
+
                     }){
                     if(uiState.loggedIn){
                         Text(text="Passer au menu")

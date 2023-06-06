@@ -23,7 +23,7 @@ fun PizzaScreen(
     appViewModel: RestaurantViewModel = viewModel(),
 
     ){
-    appViewModel.getPizzas()
+    //appViewModel.getPizzas()
     val searchText by appViewModel.searchText.collectAsState()
     val pizzas by appViewModel.pizzas.collectAsState()
     Surface(){
