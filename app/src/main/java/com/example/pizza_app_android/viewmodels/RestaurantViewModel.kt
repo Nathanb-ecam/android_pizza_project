@@ -7,9 +7,7 @@ import com.example.pizza_app_android.Datasource
 import com.example.pizza_app_android.PizzaApi
 import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.models.ProductType
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,20 +22,49 @@ data class UiState(
 )
 
 class RestaurantViewModel : ViewModel() {
+    // for displaying all the products of our restaurant
     private val _uiState = MutableStateFlow(UiState(
-                listOf<Product>(),//Product(0,"Loading drinks",0f))
-                listOf<Product>(),
-                listOf<Product>(),
-                listOf<Product>(),
+        listOf<Product>(),//Product(0,"Loading drinks",0f))
+        listOf<Product>(),
+        listOf<Product>(),
+        listOf<Product>(),
     ));
 
     val uiState : StateFlow<UiState> = _uiState.asStateFlow();
 
-    fun update(){
-        val latestPizzas = Datasource().fetchPizzas();
-        val currentState = _uiState.value;
-        _uiState.value = currentState.copy(pizzas = latestPizzas);
+
+    // for researching a pizza
+    private val _searchtext = MutableStateFlow("")
+    val searchText = _searchtext.asStateFlow()
+
+    private val _pizzas = MutableStateFlow(listOf<Product>());
+    val pizzas = searchText
+        .combine(_pizzas){text,pizzas ->
+            if(text.isBlank()){
+                pizzas
+            }else{
+                pizzas.filter {
+                    doesMatchSearchQuery(text,it)
+                }
+            }
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            _pizzas.value
+        )
+
+    fun doesMatchSearchQuery(query:String,product: Product):Boolean{
+        val matching = product.name
+        return matching.startsWith(query,ignoreCase = true)
     }
+
+    fun onSearchTextChange(text:String){
+        _searchtext.value = text;
+    }
+
+
+
+
 
 
     fun getPizzas(){
@@ -46,6 +73,7 @@ class RestaurantViewModel : ViewModel() {
                 val latestPizzas = PizzaApi.retrofitService.getPizzas()
                 val currentState = _uiState.value;
                 _uiState.value = currentState.copy(pizzas = latestPizzas);
+                _pizzas.value = latestPizzas;
             }
             catch (e:SocketTimeoutException){
 
