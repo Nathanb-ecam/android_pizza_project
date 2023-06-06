@@ -3,30 +3,44 @@ package com.example.pizza_app_android.viewmodels
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
+import com.example.pizza_app_android.Datasource
 import com.example.pizza_app_android.PizzaApi
 import com.example.pizza_app_android.models.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+data class OrderUiState(
+    val orderUISelection :MutableList<Selection>,
+    val orderUIExtras :MutableMap<ProductType,MutableList<Product>>,
+)
 
 class OrderViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow(OrderUiState(
+        mutableStateListOf<Selection>(),//Product(0,"Loading drinks",0f))
+        mutableMapOf<ProductType,MutableList<Product>>()
+
+    ));
+
+    val uiState : StateFlow<OrderUiState> = _uiState.asStateFlow();
+
+
+
     var orderCredentials = Token("","",false,0)
     private var order_id = 0;
-    private val orderSelections  = mutableListOf<Selection>();
-    private val orderExtras  = mutableMapOf<ProductType,MutableList<Product>>();
     private val selection:MutableMap<String,Product> = mutableMapOf<String,Product>(
 /*      ProductType.Drink.name to "no drink",
         ProductType.Sauce.name to "no sauce"*/
     );
 
-    fun getOrderSelection():List<Selection>{
-        return orderSelections;
-    }
     fun getOrderExtras():MutableMap<ProductType,MutableList<Product>>{
-        return orderExtras;
+        return _uiState.value.orderUIExtras;
     }
 
     fun getSelection():MutableMap<String,Product>{
@@ -40,9 +54,20 @@ class OrderViewModel : ViewModel() {
             val pizza=  selection[ProductType.Pizza.name]
             val chicken=  selection[ProductType.Chicken.name]
             Log.i("Selection","Current selection"+selection.toString())
-            orderSelections.add(Selection(sauce,drink,pizza,chicken));
+            //orderSelections.add(Selection(sauce,drink,pizza,chicken));
+            _uiState.value.orderUISelection.add(Selection(sauce,drink,pizza,chicken));
             selection.clear()
         }
+    }
+
+    fun removeMenuFromOrder(id:Int){
+        Log.i("Order","The id"+id.toString())
+
+        _uiState.value.orderUISelection.removeAt(id);
+        val currentState = _uiState.value;
+        val latest = _uiState.value.orderUISelection
+        _uiState.value = currentState.copy(orderUISelection = latest);
+        //orderSelections.removeAt(id);
     }
 
     fun applySelection(productType: ProductType,product: Product){
@@ -52,10 +77,10 @@ class OrderViewModel : ViewModel() {
 
     fun showOrderContent(){
         Log.i("Order content","Menu's selected")
-        Log.i("Order content",orderSelections.toString())
+        Log.i("Order content",_uiState.value.orderUISelection.toString())
         Log.i("Order content","Extra's :")
         Log.i("Order content","")
-        for((k,v) in orderExtras){
+        for((k,v) in _uiState.value.orderUIExtras){
             Log.i("Order content","${k} ${v}")
         }
 
@@ -63,20 +88,14 @@ class OrderViewModel : ViewModel() {
     }
 
     fun addExtra(productType: ProductType,product: Product){
-        if(!orderExtras.containsKey(productType)){
-            orderExtras[productType]= mutableListOf<Product>(product)
+        if(!_uiState.value.orderUIExtras.containsKey(productType)){
+            _uiState.value.orderUIExtras[productType]= mutableListOf<Product>(product)
         }
         else{
-            orderExtras[productType]!!.add(product)
-/*            for(i in 1..productQuantity-1){
-            }
-            if(productQuantity==0){
-
-            }
-            else{
-            }*/
+            _uiState.value.orderUIExtras[productType]!!.add(product)
         }
     }
+
 
     fun sendOrder(){
         // first we need to add a new row in the table order by giving our user_id
@@ -113,7 +132,7 @@ class OrderViewModel : ViewModel() {
     }
 
     fun addSelectionToDb(){
-        orderSelections.forEach {
+        _uiState.value.orderUISelection.forEach {
             Log.i("Send Order",it.toString())
             Log.i("Send Order","${it.sauce?.id} ${it.drink?.id} ${it.pizza?.id} ${it.chicken?.id}")
             val menu = Menu(it.sauce?.id,it.drink?.id,it.pizza?.id,it.chicken?.id)
@@ -138,7 +157,7 @@ class OrderViewModel : ViewModel() {
             })
         }
 
-        orderExtras.forEach {
+        _uiState.value.orderUIExtras.forEach {
             Log.i("Order",it.toString())
             val type = it.key
             val products:List<Product> = it.value
@@ -183,10 +202,10 @@ class OrderViewModel : ViewModel() {
     }
     fun orderTotal():Float{
         var total = 0f;
-        orderSelections.forEach {
+        _uiState.value.orderUISelection.forEach {
             total += it.price;
         }
-        orderExtras.forEach{
+        _uiState.value.orderUIExtras.forEach{
             val extras = it.value
             extras.forEach{
                 total += it.price

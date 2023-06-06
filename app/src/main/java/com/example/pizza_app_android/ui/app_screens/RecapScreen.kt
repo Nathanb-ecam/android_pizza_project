@@ -30,6 +30,7 @@ fun RecapScreen(
     orderViewModel : OrderViewModel
 ){
     val uiState by appViewModel.uiState.collectAsState()
+    val orderUIState by orderViewModel.uiState.collectAsState()
 //"chickens","sauce",
     appViewModel.getPizzas()
     appViewModel.getDrinks()
@@ -40,7 +41,8 @@ fun RecapScreen(
             .padding(8.dp)
             .fillMaxSize()) {
             Text(text="Votre commande", style = headerStyle)
-            val menus = orderViewModel.getOrderSelection()
+            //val menus = orderViewModel.getOrderSelection()
+            val menus = orderUIState.orderUISelection;
             val extras = orderViewModel.getOrderExtras()
             Column(modifier = Modifier
                 //.height(500.dp)
@@ -48,7 +50,7 @@ fun RecapScreen(
                 .verticalScroll(rememberScrollState())){
                 if(menus.isNotEmpty()){
                     Text(text="Menus :",style= mediumHeader)
-                    menus.forEach{
+                    menus.forEachIndexed { index, it ->
                         Card(backgroundColor = Color.LightGray, modifier = Modifier
                             .padding(8.dp)
                             .fillMaxWidth()
@@ -59,6 +61,7 @@ fun RecapScreen(
                                 Text(text="Pizza : ${it.pizza?.name}",style= paragraphStyle)
                                 Text(text="Chicken : ${it.chicken?.name}",style= paragraphStyle)
                                 Text(text="${it.price} $",style= paragraphStyle)
+                                Button(onClick={orderViewModel.removeMenuFromOrder(index);}){Text(text="Supprimer")}
                             }
                         }
                     }
