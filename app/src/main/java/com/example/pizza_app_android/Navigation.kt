@@ -3,14 +3,24 @@ package com.example.pizza_app_android
 
 import PizzaScreen
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,10 +35,12 @@ import com.example.pizza_app_android.models.BottomNavItem
 import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.models.ProductType
 import com.example.pizza_app_android.ui.app_screens.*
+import com.example.pizza_app_android.ui.theme.MyPalette
 import com.example.pizza_app_android.viewmodels.OrderViewModel
 import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
+import java.util.Locale
 
 @Composable
 fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel, appViewModel: RestaurantViewModel){
@@ -77,23 +89,34 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
     }
 }
 
+
+
+
 @OptIn(ExperimentalGraphicsApi::class)
 @Composable
-fun TopNavigationBar(){
-    TopAppBar(
-        backgroundColor = Color.hsl(345f, 0.95f, 0.25f, 1f)
-    ) {
-/*        Image(
-            painter=painterResource(R.drawable.logo_image),
-            contentDescription = "logo",
-            modifier= Modifier.fillMaxSize()
+fun TopNavigationBar(navController : NavController){
+    val backStackEntry by navController.currentBackStackEntryAsState()
 
-        )*/
-        Text(
-            text = "Pizza hut",
-            style = titleStyle,
-            modifier=Modifier.fillMaxSize()
-        )
+    // Extract the current route safely
+    val currentRoute = backStackEntry?.destination?.route ?: return
+
+    val currentTitle = Screen.getScreenTitle(currentRoute) ?: ""
+
+    if (currentRoute != Screen.LoginScreen.route && currentTitle != "") {
+        TopAppBar(
+            backgroundColor = MyPalette.LigthGrayBackground
+        ) {
+            Column(modifier = Modifier.fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
+                Text(
+                    text = currentTitle,
+                    color = MyPalette.textBlack,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
+
+        }
     }
 }
 
@@ -107,10 +130,10 @@ fun BottomNavigationBar(
 ){
     val backStackEntry = navController.currentBackStackEntryAsState()
     // if we are currently on the loginscreen, we don't want to have bottom bar
-    if (backStackEntry.value?.destination?.route !=Screen.LoginScreen.route){
+    if (backStackEntry.value?.destination?.route != Screen.LoginScreen.route){
         BottomNavigation(
-            modifier = Modifier,
-            backgroundColor = Color.DarkGray,
+            modifier = Modifier.fillMaxWidth(),
+            backgroundColor = MyPalette.LigthGrayBackground,
             elevation = 5.dp
         ){
             items.forEach{item->
@@ -118,8 +141,8 @@ fun BottomNavigationBar(
                 BottomNavigationItem(
                     selected = selected,
                     onClick = { onItemClicked(item) },
-                    selectedContentColor = Color.hsl(345f, 0.95f, 0.25f, 1f),
-                    unselectedContentColor = Color.Gray,
+                    selectedContentColor = MyPalette.PrimaryColor,
+                    unselectedContentColor = MyPalette.LightGray,
                     icon = {
                         Icon(
                             painter = painterResource(id = item.icon_path),

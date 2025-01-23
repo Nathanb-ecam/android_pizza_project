@@ -3,8 +3,12 @@ package com.example.pizza_app_android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
@@ -25,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 val orderViewModel : OrderViewModel = viewModel()
                 val appViewModel : RestaurantViewModel = viewModel()
                 Scaffold(
+                    topBar = { TopNavigationBar(navController) },
                     bottomBar = {
                         BottomNavigationBar(
                             items = listOf(
@@ -55,11 +60,11 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     },
-                    topBar = {
-                        TopNavigationBar()
+
+                ){ innerPadding ->
+                    Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)){
+                        Navigation(navController = navController,orderViewModel = orderViewModel,appViewModel = appViewModel )
                     }
-                ){
-                    Navigation(navController = navController,orderViewModel = orderViewModel,appViewModel = appViewModel )
                 }
             }
         }

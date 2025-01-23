@@ -2,10 +2,12 @@ package com.example.pizza_app_android
 
 import android.graphics.fonts.FontFamily
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -15,6 +17,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.text.AnnotatedString
@@ -25,20 +29,49 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.pizza_app_android.models.Product
 import com.example.pizza_app_android.models.ProductType
+import com.example.pizza_app_android.ui.app_screens.ProductListItem
+import com.example.pizza_app_android.ui.theme.MyPalette
 import com.example.pizza_app_android.viewmodels.OrderViewModel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 
 @Composable
 fun ProductList(productType: ProductType,products:List<Product>,navController:NavController){
-    LazyColumn(
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(600.dp),
-        contentPadding = PaddingValues(16.dp)
-    ){
-        items(products) { product ->
-            ProductCard(productType=productType,product = product,navController=navController)
+            .shadow(elevation = 2.dp, shape = RoundedCornerShape(10))
+            .clip(RoundedCornerShape(10))
+            .background(MyPalette.White)
+    ) {
+        products.forEachIndexed { index, pizza ->
+            ProductListItem(
+                productType = ProductType.Pizza,
+                suggestion = pizza,
+                itemIndex = index,
+                onItemClicked = {
+                    val jsonProduct = Json.encodeToString(pizza)
+                    val jsonProductType = Json.encodeToString(productType)
+                    navController.navigate(
+                        Screen.DetailScreen.withArgs(jsonProduct, jsonProductType)
+                    )
+                }
+            )
+            // Add a divider for all items except the last one
+            if (index != (products.size - 1)) {
+                Box(
+                    modifier = Modifier
+                        .height(0.2.dp)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.2.dp)
+                            .background(MyPalette.borderGray)
+                    ) {}
+                }
+            }
         }
     }
 }

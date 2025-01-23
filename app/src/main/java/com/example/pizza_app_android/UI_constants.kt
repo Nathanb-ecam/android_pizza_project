@@ -1,25 +1,48 @@
 package com.example.pizza_app_android
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.Modifier
+
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.core.provider.FontRequest
+
+
+
+/*val provider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
+)
+
+val headerfontFamily = FontFamily(
+    Font(
+        GoogleFont("roboto"), provider
+    )
+)
+
+val textFontFamily = FontFamily(
+    Font(
+        GoogleFont("open sans"), provider
+    )
+)*/
+
 
 val headerStyle = TextStyle(
-    fontFamily = FontFamily.Serif,
     fontWeight = FontWeight.Bold,
-    fontStyle = FontStyle.Italic,
-    fontSize = 32.sp,
+    //fontFamily = headerfontFamily,
+    fontSize = 50.sp,
     color = Color.Black,
     textAlign = TextAlign.Center
 )
 val mediumHeader = TextStyle(
-    fontFamily = FontFamily.Serif,
+    //fontFamily = textFontFamily,
     fontWeight = FontWeight.Bold,
     //fontStyle = FontStyle.Italic,
     fontSize = 26.sp,
@@ -27,7 +50,7 @@ val mediumHeader = TextStyle(
 )
 
 val smallHeader = TextStyle(
-    fontFamily = FontFamily.Serif,
+    //fontFamily = textFontFamily,
     fontWeight = FontWeight.Bold,
     //fontStyle = FontStyle.Italic,
     fontSize = 22.sp,
@@ -37,7 +60,7 @@ val smallHeader = TextStyle(
 
 val titleStyle = TextStyle(
     fontSize = 36.sp,
-    fontFamily = FontFamily.Monospace,
+    //fontFamily = textFontFamily,
     fontWeight = FontWeight.Bold,
     textAlign = TextAlign.Center,
     fontStyle=FontStyle.Italic,
@@ -46,7 +69,7 @@ val titleStyle = TextStyle(
 
 val paragraphStyle = TextStyle(
     fontSize = 18.sp,
-    fontFamily = FontFamily.Monospace,
+    //fontFamily = textFontFamily,
     fontWeight = FontWeight.Bold,
     fontStyle=FontStyle.Italic,
 

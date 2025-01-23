@@ -1,6 +1,8 @@
 package com.example.pizza_app_android.ui.app_screens
 
+import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,11 +19,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pizza_app_android.*
+import com.example.pizza_app_android.ui.theme.MyPalette
 import com.example.pizza_app_android.viewmodels.RestaurantViewModel
 import com.example.pizza_app_android.viewmodels.OrderViewModel
 
 
 
+@SuppressLint("DefaultLocale")
 @OptIn(ExperimentalGraphicsApi::class)
 @Composable
 fun RecapScreen(
@@ -34,14 +38,13 @@ fun RecapScreen(
 //"chickens","sauce",
     appViewModel.getPizzas()
     appViewModel.getDrinks()
-    Box(
-        modifier = Modifier.fillMaxSize()
+    Surface(
+        modifier = Modifier.fillMaxSize().background(MyPalette.LightBackGround)
     ){
         Column(modifier= Modifier
             .padding(8.dp)
             .fillMaxSize()) {
-            Text(text="Votre commande", style = headerStyle)
-            //val menus = orderViewModel.getOrderSelection()
+
             val menus = orderUIState.orderUISelection;
             val extras = orderViewModel.getOrderExtras()
             Column(modifier = Modifier
@@ -78,7 +81,7 @@ fun RecapScreen(
                                 products.forEach{
                                     Row( modifier= Modifier.fillMaxWidth(),horizontalArrangement= Arrangement.SpaceBetween){
                                         Text(text=it.name,style= paragraphStyle)
-                                        Text(text=it.price.toString(),style= paragraphStyle)
+                                        Text(text=String.format("%.2f", it.price),style= paragraphStyle)
                                         //Button(onClick=orderViewModel.removeExtra(it.))
 
                                     }

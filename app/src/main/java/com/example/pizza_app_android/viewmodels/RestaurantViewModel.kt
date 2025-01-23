@@ -21,7 +21,7 @@ data class UiState(
     val sauces: List<Product>,
 )
 
-class RestaurantViewModel : ViewModel() {
+open class RestaurantViewModel : ViewModel() {
     // for displaying all the products of our restaurant
     private val _uiState = MutableStateFlow(UiState(
         listOf<Product>(),//Product(0,"Loading drinks",0f))
@@ -30,15 +30,15 @@ class RestaurantViewModel : ViewModel() {
         listOf<Product>(),
     ));
 
-    val uiState : StateFlow<UiState> = _uiState.asStateFlow();
+    open val uiState : StateFlow<UiState> = _uiState.asStateFlow();
 
 
     // for researching a pizza
     private val _searchtext = MutableStateFlow("")
-    val searchText = _searchtext.asStateFlow()
+    open val searchText = _searchtext.asStateFlow()
 
     private val _pizzas = MutableStateFlow(listOf<Product>());
-    val pizzas = searchText
+    open val pizzas = searchText
         .combine(_pizzas){text,pizzas ->
             if(text.isBlank()){
                 pizzas
@@ -53,7 +53,7 @@ class RestaurantViewModel : ViewModel() {
             _pizzas.value
         )
 
-    fun doesMatchSearchQuery(query:String,product: Product):Boolean{
+    open fun doesMatchSearchQuery(query:String, product: Product):Boolean{
         val matching = product.name
         return matching.startsWith(query,ignoreCase = true)
     }

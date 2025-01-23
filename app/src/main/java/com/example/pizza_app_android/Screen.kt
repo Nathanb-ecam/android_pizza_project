@@ -17,4 +17,24 @@ sealed class Screen(val route:String) {
             }
         }
     }
+
+
+    companion object {
+        val routeToTitleMap: Map<String, String> by lazy {
+            mapOf(
+                MenuScreen.route to "Menus",
+                DrinkScreen.route to "Boissons",
+                SauceScreen.route to "Sauces",
+                PizzaScreen.route to "Pizzas",
+                DetailScreen.route to "Details",
+                LoginScreen.route to "Login",
+                RecapScreen.route to "Commande"
+            )
+        }
+
+
+        fun getScreenTitle(route: String): String? {
+            return routeToTitleMap[route]
+        }
+    }
 }
