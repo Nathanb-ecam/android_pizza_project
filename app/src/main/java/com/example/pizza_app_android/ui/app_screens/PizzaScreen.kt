@@ -2,6 +2,8 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,7 +39,15 @@ fun PizzaScreen(
     val pizzas by appViewModel.pizzas.collectAsState()
 
 
-    val whiteOutlineTextFieldStyles = TextFieldDefaults.outlinedTextFieldColors(textColor = MyPalette.borderLightWhite, placeholderColor = MyPalette.borderLightWhite, cursorColor = MyPalette.borderLightWhite, focusedLabelColor = MyPalette.borderLightWhite, unfocusedLabelColor = MyPalette.borderLightWhite, focusedBorderColor = MyPalette.borderLightWhite,unfocusedBorderColor = MyPalette.borderLightWhite)
+    val whiteOutlineTextFieldStyles = TextFieldDefaults.outlinedTextFieldColors(
+        textColor = MyPalette.textBlack,
+        placeholderColor = MyPalette.borderLightWhite,
+        cursorColor = MyPalette.borderLightWhite,
+        focusedLabelColor = MyPalette.borderLightWhite,
+        unfocusedLabelColor = MyPalette.borderLightWhite,
+        focusedBorderColor = MyPalette.borderLightWhite,
+        unfocusedBorderColor = MyPalette.borderLightWhite
+    )
 
     Surface(modifier = Modifier.fillMaxSize().background(MyPalette.LightBackGround)){
 
@@ -48,6 +59,10 @@ fun PizzaScreen(
                 onValueChange = appViewModel::onSearchTextChange,
                 colors = whiteOutlineTextFieldStyles,
                 placeholder = {Text(text="Search")},
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = { ImeAction.Done }
+                )
             )
             Spacer(modifier = Modifier.fillMaxWidth().height(10.dp))
 

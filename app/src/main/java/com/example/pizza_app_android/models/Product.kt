@@ -7,5 +7,6 @@ open class Product(
     val id:Int,
     val name: String="",
     val price : Float=0f,
-    var desc:String=""
+    var desc:String="",
+    val image_path : String? = null
 )

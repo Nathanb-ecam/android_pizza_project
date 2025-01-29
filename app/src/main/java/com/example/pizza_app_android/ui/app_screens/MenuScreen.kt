@@ -38,7 +38,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.pizza_app_android.ErrorCard
 import com.example.pizza_app_android.Screen
+import com.example.pizza_app_android.TitleRow
 import com.example.pizza_app_android.headerStyle
 import com.example.pizza_app_android.mediumHeader
 import com.example.pizza_app_android.models.Product
@@ -81,10 +83,10 @@ fun MenuScreen(
 
             if (allFetched) {
                 // Display the product lists
-                ProductsList(productType = ProductType.Drink, suggestions = uiState.drinks, orderViewModel = orderViewModel)
-                ProductsList(productType = ProductType.Pizza, suggestions = uiState.pizzas, orderViewModel = orderViewModel)
-                ProductsList(productType = ProductType.Chicken, suggestions = uiState.chickens, orderViewModel = orderViewModel)
-                ProductsList(productType = ProductType.Sauce, suggestions = uiState.sauces, orderViewModel = orderViewModel)
+                ProductsListWithSelectableItems(productType = ProductType.Drink, suggestions = uiState.drinks, orderViewModel = orderViewModel)
+                ProductsListWithSelectableItems(productType = ProductType.Pizza, suggestions = uiState.pizzas, orderViewModel = orderViewModel)
+                ProductsListWithSelectableItems(productType = ProductType.Chicken, suggestions = uiState.chickens, orderViewModel = orderViewModel)
+                ProductsListWithSelectableItems(productType = ProductType.Sauce, suggestions = uiState.sauces, orderViewModel = orderViewModel)
             } else {
                 // Display a loading indicator
                 Box(
@@ -136,7 +138,7 @@ fun MenuScreen(
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun ProductsList(productType :ProductType,suggestions : List<Product>, orderViewModel: OrderViewModel){
+fun ProductsListWithSelectableItems(productType :ProductType,suggestions : List<Product>, orderViewModel: OrderViewModel){
     var selectedIndex by rememberSaveable(){ mutableStateOf(-1) }
     //var selectedProduct = mutableStateOf<Product?>(null)
     var selectedProduct by remember {mutableStateOf<Product?>(null)}
@@ -146,17 +148,15 @@ fun ProductsList(productType :ProductType,suggestions : List<Product>, orderView
         Column(modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
+            TitleRow(productType.name, selectedProduct?.name)
+/*            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Text(text = "${productType.name}", fontSize = 20.sp, color = MyPalette.textBlack, fontWeight = FontWeight.SemiBold)
                 selectedProduct?.name?.let { Text(text= it, fontSize = 14.sp) }
-            }
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(10.dp))
+            }*/
             Column(
                 modifier = Modifier
                     .shadow(elevation = 2.dp, shape = RoundedCornerShape(10))
@@ -211,12 +211,13 @@ fun ProductListItem(
     onItemClicked: () -> Unit = {},
     setSelectedItemIndexAndProduct: (Int) -> Unit = {},
 ){
-    val itemBackgroundColor = if (selectedIndex == itemIndex) MyPalette.PrimaryColor else MyPalette.textBlack
+    val itemSelectedBackgroundColor = if (selectedIndex == itemIndex) MyPalette.PrimaryColor else MyPalette.White
+    val itemSelectedTextColor = if (selectedIndex == itemIndex) MyPalette.White else MyPalette.textBlack
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MyPalette.White)
+            .background( color = itemSelectedBackgroundColor)
             .clickable {
                 onItemClicked.invoke()
                 orderViewModel?.applySelection(productType, suggestion);
@@ -224,11 +225,12 @@ fun ProductListItem(
                 setSelectedItemIndexAndProduct.invoke(itemIndex)
             }
             .padding(vertical = 12.dp, horizontal = 8.dp)
+
         ,
         horizontalArrangement = Arrangement.SpaceBetween
     ){
-        Text(text = AnnotatedString(suggestion.name), color = itemBackgroundColor)
-        Text(text=suggestion.price.toString(),  color = MyPalette.textGray)
+        Text(text=AnnotatedString(suggestion.name), color = itemSelectedTextColor) //  color = itemBackgroundColor
+        Text(text=suggestion.price.toString(),  color = itemSelectedTextColor)
     }
 }
 

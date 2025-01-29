@@ -4,6 +4,11 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10'
 }
 
+
+
+
+
+
 android {
     namespace 'com.example.pizza_app_android'
     compileSdk 33
@@ -23,9 +28,13 @@ android {
 
 
     buildTypes {
+        debug {
+            buildConfigField "String", "API_BASE_URL", "\"${project.properties['API_BASE_URL']}\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_BASE_URL", "\"${project.properties['API_BASE_URL']}\""
         }
     }
     compileOptions {
@@ -62,6 +71,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     //implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+    implementation "io.coil-kt:coil-compose:2.2.2"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

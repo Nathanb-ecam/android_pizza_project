@@ -2,6 +2,7 @@ package com.example.pizza_app_android
 
 import android.graphics.fonts.FontFamily
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,7 +24,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -34,6 +38,7 @@ import com.example.pizza_app_android.ui.theme.MyPalette
 import com.example.pizza_app_android.viewmodels.OrderViewModel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
+import java.util.Locale
 
 @Composable
 fun ProductList(productType: ProductType,products:List<Product>,navController:NavController){
@@ -76,7 +81,37 @@ fun ProductList(productType: ProductType,products:List<Product>,navController:Na
     }
 }
 
-@OptIn(ExperimentalGraphicsApi::class)
+
+@Composable
+fun TitleRow(leftText : String, rightText : String? = null){
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ){
+        Text(
+            text = leftText.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+            fontSize = 20.sp, color = MyPalette.textBlack, fontWeight = FontWeight.SemiBold
+        )
+        rightText?.let{Text(text = rightText, fontSize = 15.sp, color = MyPalette.PrimaryColor, textDecoration = TextDecoration.Underline)}
+    }
+    Spacer(modifier = Modifier.fillMaxWidth().height(10.dp))
+}
+
+
+@Composable
+fun ErrorCard(errorMessage : String){
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(40.dp),
+        backgroundColor = MyPalette.White,
+        border = BorderStroke(1.dp, MyPalette.redInfo),
+        shape = RoundedCornerShape(1.dp),
+        elevation = 1.dp
+    ){
+        Text(errorMessage, textAlign = TextAlign.Center)
+    }
+}
+
+
 @Composable
 fun ProductCard(productType: ProductType,product: Product,navController:NavController){
     Card(modifier = Modifier.padding(8.dp).clickable {

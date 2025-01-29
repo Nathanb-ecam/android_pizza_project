@@ -60,15 +60,20 @@ class OrderViewModel : ViewModel() {
         }
     }
 
-    fun removeMenuFromOrder(id:Int){
-        Log.i("Order","The id"+id.toString())
+    fun removeMenuFromOrder(id: Int) {
+        val currentState = _uiState.value
+        val latestList = currentState.orderUISelection.toMutableList()
 
-        _uiState.value.orderUISelection.removeAt(id);
-        val currentState = _uiState.value;
-        val latest = _uiState.value.orderUISelection
-        _uiState.value = currentState.copy(orderUISelection = latest);
-        //orderSelections.removeAt(id);
+        if (id in latestList.indices) {
+            Log.i("Order", "Removing item at index: $id")
+            latestList.removeAt(id)
+
+            _uiState.value = currentState.copy(orderUISelection = latestList)
+        } else {
+            Log.e("Order", "Invalid index: $id, List size: ${latestList.size}")
+        }
     }
+
 
     fun applySelection(productType: ProductType,product: Product){
         selection[productType.name]= product;
@@ -101,7 +106,7 @@ class OrderViewModel : ViewModel() {
         // first we need to add a new row in the table order by giving our user_id
         addNewOrderInDb()
 
-        Log.i("Send Order",orderCredentials.token)
+        Log.i("Sent Order",orderCredentials.token)
 
     }
 
@@ -200,6 +205,7 @@ class OrderViewModel : ViewModel() {
             }
         })
     }
+
     fun orderTotal():Float{
         var total = 0f;
         _uiState.value.orderUISelection.forEach {

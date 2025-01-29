@@ -2,16 +2,21 @@ package com.example.pizza_app_android
 
 
 import PizzaScreen
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -19,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -68,7 +74,7 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
             val product = Json.decodeFromString<Product>(stringProduct);
             var stringProductType = it.arguments?.getString("productType")!!;
             val productType = Json.decodeFromString<ProductType>(stringProductType);
-            DetailScreen(productType,product,appViewModel= appViewModel,orderViewModel=orderViewModel);
+            DetailScreen(productType,product,orderViewModel=orderViewModel, navController = navController);
         }
         composable(route=Screen.DrinkScreen.route){
             DrinkScreen(navController = navController,appViewModel=appViewModel)
@@ -92,7 +98,6 @@ fun Navigation(navController : NavHostController, orderViewModel: OrderViewModel
 
 
 
-@OptIn(ExperimentalGraphicsApi::class)
 @Composable
 fun TopNavigationBar(navController : NavController){
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -102,22 +107,43 @@ fun TopNavigationBar(navController : NavController){
 
     val currentTitle = Screen.getScreenTitle(currentRoute) ?: ""
 
-    if (currentRoute != Screen.LoginScreen.route && currentTitle != "") {
+    if (currentRoute != Screen.LoginScreen.route) {
         TopAppBar(
             backgroundColor = MyPalette.LigthGrayBackground
         ) {
-            Column(modifier = Modifier.fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val isDetailScreen = currentRoute.startsWith(Screen.DetailScreen.route)
+
+                if (isDetailScreen) {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MyPalette.PrimaryColor
+                        )
+                    }
+                } else {
+                    Spacer(modifier = Modifier.width(48.dp))
+                }
+
+                // Title (Centered)
                 Text(
                     text = currentTitle,
                     color = MyPalette.textBlack,
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f)
                 )
-            }
 
+                Spacer(modifier = Modifier.width(48.dp))
+            }
         }
     }
+
 }
 
 @OptIn(ExperimentalGraphicsApi::class)
@@ -125,7 +151,7 @@ fun TopNavigationBar(navController : NavController){
 fun BottomNavigationBar(
     items: List<BottomNavItem>,
     navController: NavController,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.background(MyPalette.LigthGrayBackground),
     onItemClicked : (BottomNavItem)->Unit
 ){
     val backStackEntry = navController.currentBackStackEntryAsState()

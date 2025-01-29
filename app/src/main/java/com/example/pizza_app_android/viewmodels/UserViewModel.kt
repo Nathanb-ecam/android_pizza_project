@@ -15,6 +15,7 @@ import retrofit2.Response
 
 data class UserUIState(
     val loggedIn: Boolean,
+    val errMessage : String? = null
 )
 
 class UserViewModel : ViewModel() {
@@ -27,18 +28,20 @@ class UserViewModel : ViewModel() {
         val call: Call<Token> = PizzaApi.retrofitService.login(Login(login.name,login.password))
         call.enqueue(object : Callback<Token?> {
             override fun onResponse(call: Call<Token?>, response: Response<Token?>) {
+                val currentState = _uiState.value;
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     //Log.i("API",responseBody.toString())
                     if (responseBody != null) {
                         orderViewModel.orderCredentials = Token(responseBody.token,responseBody.maxAge,responseBody.isAdmin,responseBody.user_id)
                         Log.i("Login","Api token : ${orderViewModel.orderCredentials.token}")
-                        val currentState = _uiState.value;
+
                         _uiState.value = currentState.copy(loggedIn = true);
                     }
                     // handle the response body here
                 } else {
                     // handle unsuccessful response
+                    _uiState.value = currentState.copy(errMessage = "Invalid username or password")
                     Log.i("Login","invalid credentials")
 
                 }
@@ -46,6 +49,8 @@ class UserViewModel : ViewModel() {
 
             override fun onFailure(call: Call<Token?>, t: Throwable) {
                 Log.i( "API",t.toString())
+                val currentState = _uiState.value
+                _uiState.value = currentState.copy(errMessage = "Invalid credentials")
             }
         }
         )

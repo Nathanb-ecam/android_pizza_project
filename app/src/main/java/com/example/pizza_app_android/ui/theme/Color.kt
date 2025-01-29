@@ -12,8 +12,9 @@ import com.example.pizza_app_android.R
 
 object MyPalette{
 
-    //val PrimaryColor = Color.hsl(133f, .88f, .39f, 0.722f)
-    val PrimaryColor = Color.hsl(0f, .79f, .54f, .808f)
+
+    //val PrimaryColor = Color.hsl(0f, .79f, .54f, .808f)
+    val PrimaryColor = Color.hsl(211f, .73f, .44f)
 
     val Gray = Color.hsl(0f,0f,.75f)
     //val White = Color.hsl(60f, 1f, 1f)
